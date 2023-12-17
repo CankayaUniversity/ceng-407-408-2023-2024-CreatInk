@@ -1,4 +1,10 @@
 # ceng-407-408-2023-2024-CreatInk
-CreatInk
+# CreatInk - Think, create.
 
-pages update test
+## Project Web Page
+https://creatink.my.canva.site/
+
+***
+
+## Wiki Page
+https://github.com/CankayaUniversity/ceng-407-408-2023-2024-CreatInk/wiki
