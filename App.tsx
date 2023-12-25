@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,7 +30,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): JSX.Element {
+function Section({ children, title }: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -63,36 +64,42 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
+    <NavigationContainer>
+      {/* Rest of your app code */}
+
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          // backgroundColor={backgroundStyle.backgroundColor}
+          hidden={true}
+        />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          {/* <Header /> */}
+          <View
+            style={{
+              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+              //justifyContent: 'center',
+              //alignItems: 'center',
+            }}>
+            <Section title="CreatInk">
+              Welcome to <Text style={styles.highlight}>CreatInk</Text>!
+            </Section>
+
+            <Section title=""><Text style={styles.highlight}>Useful React Native Links:</Text></Section>
+            
+            <LearnMoreLinks />
+            {/* <Section title="Debug">
             <DebugInstructions />
           </Section>
           <Section title="Learn More">
             Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          </Section> */}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
