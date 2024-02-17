@@ -109,7 +109,7 @@ const RegisterScreen = (props) => {
             <View
                 style={{
                     flex: 1,
-                    backgroundColor: '#307ecc',
+                    backgroundColor: '#cc30a0',
                     justifyContent: 'center',
                 }}>
                 <Image
@@ -133,7 +133,7 @@ const RegisterScreen = (props) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
+        <View style={{ flex: 1, backgroundColor: '#cc30a0' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
