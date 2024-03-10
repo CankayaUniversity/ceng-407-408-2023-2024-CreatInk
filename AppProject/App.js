@@ -14,6 +14,8 @@ import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
+import TestScreen from './Screen/TestScreen';
+import HomeScreen from './Screen/DrawerScreens/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,13 @@ const Auth = () => {
   // Stack Navigator for Login and Sign up Screen
   return (
     <Stack.Navigator initialRouteName="LoginScreen">
+      
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
@@ -40,6 +49,13 @@ const Auth = () => {
           },
         }}
       />
+
+      <Stack.Screen
+        name="TestScreen"
+        component={TestScreen}
+        options={{ headerShown: false }}
+      />
+
     </Stack.Navigator>
   );
 };
