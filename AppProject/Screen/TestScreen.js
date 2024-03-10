@@ -1,24 +1,45 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
-    TextInput,
     View,
     Text,
-    ScrollView,
-    Image,
-    Keyboard,
-    TouchableOpacity,
-    KeyboardAvoidingView,
+    FlatList,
+    Button
 } from 'react-native';
+import { Card } from 'react-native-paper';
 
-const TestScreen = ({ navigation }) => {
+function TestScreen() {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        fetch('http://192.168.1.36:5000/getAllClients', {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(client => {
+                setData(client)
+            })
+    }, [])
+
+    const renderData = (item) => {
+        return (
+            <Card>
+                <Text>{item.name}</Text>
+                <Text>{item.phone}</Text>
+                <Text>{item.email}</Text>
+            </Card>
+        )
+    }
+
     return (
-        <View style={styles.container}>
-            <Image
-                source={require('../Image/aboutreact.png')}
-                style={{ width: '90%', resizeMode: 'contain', margin: 30 }}
+        <View>
+            <FlatList
+                data={data}
+                renderItem={({ item }) => {
+                    return renderData(item)
+                }}
+                keyExtractor={item => `${item.id}`}
             />
-
         </View>
     )
 };
@@ -60,7 +81,7 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
         flex: 1,
-        color: 'white',
+        color: 'black',
         paddingLeft: 15,
         paddingRight: 15,
         borderWidth: 1,
@@ -68,7 +89,7 @@ const styles = StyleSheet.create({
         borderColor: '#dadae8',
     },
     registerTextStyle: {
-        color: '#FFFFFF',
+        color: 'black',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 14,
