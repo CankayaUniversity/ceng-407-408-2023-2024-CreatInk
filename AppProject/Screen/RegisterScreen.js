@@ -18,9 +18,9 @@ import {
 import Loader from './Components/Loader';
 
 const RegisterScreen = (props) => {
-    const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [userAge, setUserAge] = useState('');
+    const [name, setUserName] = useState('');
+    const [email, setUserEmail] = useState('');
+    const [phone, setUserAge] = useState('');
     const [userAddress, setUserAddress] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -37,15 +37,15 @@ const RegisterScreen = (props) => {
 
     const handleSubmitButton = () => {
         setErrortext('');
-        if (!userName) {
+        if (!name) {
             alert('Please fill Name');
             return;
         }
-        if (!userEmail) {
+        if (!email) {
             alert('Please fill Email');
             return;
         }
-        if (!userAge) {
+        if (!phone) {
             alert('Please fill Age');
             return;
         }
@@ -60,11 +60,9 @@ const RegisterScreen = (props) => {
         //Show Loader
         setLoading(true);
         var dataToSend = {
-            name: userName,
-            email: userEmail,
-            age: userAge,
-            address: userAddress,
-            password: userPassword,
+            name: name,
+            phone: phone,
+            email: email,
         };
         var formBody = [];
         for (var key in dataToSend) {
@@ -74,17 +72,20 @@ const RegisterScreen = (props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://localhost:3000/api/user/register', {
+        fetch('http://192.168.1.38:5000/addClient', {
             method: 'POST',
-            body: formBody,
+            body: JSON.stringify({name:name,phone:phone,email:email}),
             headers: {
                 //Header Defination
                 'Content-Type':
-                    'application/x-www-form-urlencoded;charset=UTF-8',
+                    'application/json',
             },
         })
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(
+                    'Registration Successful. Please Login to proceed'
+                );
                 //Hide Loader
                 setLoading(false);
                 console.log(responseJson);
