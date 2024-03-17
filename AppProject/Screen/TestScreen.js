@@ -12,7 +12,7 @@ function TestScreen() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://192.168.1.36:5000/getAllClients', {
+        fetch('http://192.168.1.38:5000/getAllClients', {
             method: 'GET'
         })
             .then(resp => resp.json())
