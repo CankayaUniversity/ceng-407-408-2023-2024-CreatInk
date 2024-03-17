@@ -32,6 +32,7 @@ export default () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.Text}>Drawing Page</Text>
             <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 <Svg height={height * 0.7} width={width}>
                     <Path
@@ -68,6 +69,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    Text: {
+        color: 'white',
+        borderColor: 'white',
+        backgroundColor: 'pink',
+        fontSize: 50,
     },
     svgContainer: {
         height: height * 0.7,

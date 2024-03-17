@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 app.app_context().push()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:111852@localhost/creatink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost/creatink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
