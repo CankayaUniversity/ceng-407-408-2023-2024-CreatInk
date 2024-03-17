@@ -2,6 +2,7 @@ import datetime
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+import socket
 
 app = Flask(__name__)
 
@@ -82,4 +83,4 @@ def delete_client(id):
     return client_schema.jsonify(client)
 
 if __name__ == "__main__":
-    app.run(host = '192.168.1.36', port=5000, debug=True)
+    app.run(host = socket.gethostbyname(socket.gethostname()), port=5000, debug=True)
