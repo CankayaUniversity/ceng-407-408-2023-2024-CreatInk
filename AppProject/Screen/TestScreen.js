@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-paper';
 
-function TestScreen() {
+const TestScreen = ({ navigation }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://192.168.1.38:5000/getAllClients', {
+        fetch('http://192.168.1.36:5000/getAllClients', {
             method: 'GET'
         })
             .then(resp => resp.json())
@@ -40,6 +40,19 @@ function TestScreen() {
                 }}
                 keyExtractor={item => `${item.id}`}
             />
+
+            <Text
+                style={styles.registerTextStyle}
+                onPress={() => navigation.navigate('RegisterScreen')}>
+                TEST
+            </Text>
+
+            <Text
+                style={styles.registerTextStyle}
+                onPress={() => navigation.navigate('DrawingScreen')}>
+                DRAW
+            </Text>
+
         </View>
     )
 };

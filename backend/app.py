@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 app.app_context().push()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost/creatink'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:111852@localhost/creatink'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -82,4 +82,4 @@ def delete_client(id):
     return client_schema.jsonify(client)
 
 if __name__ == "__main__":
-    app.run(host = '192.168.1.38', port=5000, debug=True)
+    app.run(host = '192.168.1.36', port=5000, debug=True)

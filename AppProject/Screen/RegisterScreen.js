@@ -17,7 +17,7 @@ import {
 
 import Loader from './Components/Loader';
 
-const RegisterScreen = (props) => {
+const RegisterScreen = ({ navigation }, props) => {
     const [name, setUserName] = useState('');
     const [email, setUserEmail] = useState('');
     const [phone, setUserAge] = useState('');
@@ -72,9 +72,9 @@ const RegisterScreen = (props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.38:5000/addClient', {
+        fetch('http://192.168.1.36:5000/addClient', {
             method: 'POST',
-            body: JSON.stringify({name:name,phone:phone,email:email}),
+            body: JSON.stringify({ name: name, phone: phone, email: email }),
             headers: {
                 //Header Defination
                 'Content-Type':
@@ -249,6 +249,14 @@ const RegisterScreen = (props) => {
                         onPress={handleSubmitButton}>
                         <Text style={styles.buttonTextStyle}>REGISTER</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={() => navigation.navigate('TestScreen')}>
+                        <Text style={styles.buttonTextStyle}>TEST SCREEN</Text>
+                    </TouchableOpacity>
+
                 </KeyboardAvoidingView>
             </ScrollView>
         </View>
