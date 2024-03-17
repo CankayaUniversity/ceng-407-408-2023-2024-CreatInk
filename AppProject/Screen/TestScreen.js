@@ -40,11 +40,19 @@ const TestScreen = ({navigation}) => {
                 }}
                 keyExtractor={item => `${item.id}`}
             />
-             <Text
+
+            <Text
                 style={styles.registerTextStyle}
                 onPress={() => navigation.navigate('RegisterScreen')}>
-                New Here ? Register
-             </Text>
+                TEST
+            </Text>
+
+            <Text
+                style={styles.registerTextStyle}
+                onPress={() => navigation.navigate('DrawingScreen')}>
+                DRAW
+            </Text>
+
         </View>
     )
 };

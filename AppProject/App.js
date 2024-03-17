@@ -16,6 +16,7 @@ import RegisterScreen from './Screen/RegisterScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import TestScreen from './Screen/TestScreen';
 import HomeScreen from './Screen/DrawerScreens/HomeScreen';
+import DrawingScreen from './Screen/DrawingScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,7 +50,8 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator>
+
         <Stack.Screen
           name="TestScreen"
           component={TestScreen}
@@ -60,6 +62,13 @@ const App = () => {
           component={RegisterScreen}
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name="DrawingScreen"
+          component={DrawingScreen}
+          options={{ headerShown: false }}
+        />
+
       </Stack.Navigator>
     
     </NavigationContainer>
