@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-paper';
 
-function TestScreen() {
+const TestScreen = ({navigation}) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -40,6 +40,11 @@ function TestScreen() {
                 }}
                 keyExtractor={item => `${item.id}`}
             />
+             <Text
+                style={styles.registerTextStyle}
+                onPress={() => navigation.navigate('RegisterScreen')}>
+                New Here ? Register
+             </Text>
         </View>
     )
 };

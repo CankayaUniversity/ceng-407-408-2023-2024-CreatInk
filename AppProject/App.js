@@ -50,13 +50,18 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
-
         <Stack.Screen
           name="TestScreen"
           component={TestScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
+    
     </NavigationContainer>
   );
 };
