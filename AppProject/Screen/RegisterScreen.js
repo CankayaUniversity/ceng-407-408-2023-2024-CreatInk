@@ -72,7 +72,7 @@ const RegisterScreen = ({ navigation }, props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.36:5000/addClient', {
+        fetch('http://192.168.1.38:5000/addClient', {
             method: 'POST',
             body: JSON.stringify({ name: name, phone: phone, email: email }),
             headers: {

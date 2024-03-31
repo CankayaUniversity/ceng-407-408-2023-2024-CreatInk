@@ -8,9 +8,10 @@ export default () => {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
     const [isClearButtonClicked, setClearButtonClicked] = useState(false);
+    const [currentColor, setCurrentColor] = useState('red'); // Başlangıç rengi
 
     const onTouchEnd = () => {
-        paths.push(currentPath);
+        paths.push({ path: currentPath, color: currentColor });
         setCurrentPath([]);
         setClearButtonClicked(false);
     };
@@ -30,32 +31,42 @@ export default () => {
         setClearButtonClicked(true);
     };
 
+    const changeColor = (color) => {
+        setCurrentColor(color);
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.Text}>Drawing Page</Text>
             <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 <Svg height={height * 0.7} width={width}>
                     <Path
-                        d={paths.join('')}
-                        stroke={isClearButtonClicked ? 'transparent' : 'red'}
+                        d={paths.map(({ path }) => path).join('')}
+                        stroke={isClearButtonClicked ? 'transparent' : currentColor}
                         fill={'transparent'}
                         strokeWidth={3}
                         strokeLinejoin={'round'}
                         strokeLinecap={'round'}
                     />
-                    {paths.length > 0 &&
-                        paths.map((item, index) => (
-                            <Path
-                                key={`path-${index}`}
-                                d={currentPath.join('')}
-                                stroke={isClearButtonClicked ? 'transparent' : 'red'}
-                                fill={'transparent'}
-                                strokeWidth={2}
-                                strokeLinejoin={'round'}
-                                strokeLinecap={'round'}
-                            />
-                        ))}
+                    {paths.map(({ path, color }, index) => (
+                        <Path
+                            key={`path-${index}`}
+                            d={path.join('')}
+                            stroke={isClearButtonClicked ? 'transparent' : color}
+                            fill={'transparent'}
+                            strokeWidth={2}
+                            strokeLinejoin={'round'}
+                            strokeLinecap={'round'}
+                        />
+                    ))}
                 </Svg>
+            </View>
+            <View style={styles.colorPickerContainer}>
+                <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'red' }]} onPress={() => changeColor('red')} />
+                <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'blue' }]} onPress={() => changeColor('blue')} />
+                <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'green' }]} onPress={() => changeColor('green')} />
+                <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'yellow' }]} onPress={() => changeColor('yellow')} />
+                {}
             </View>
             <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
                 <Text style={styles.clearButtonText}>Clear</Text>
@@ -94,5 +105,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    colorPickerContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    colorButton: {
+        width: 40,
+        height: 40,
+        marginHorizontal: 5,
+        borderRadius: 20,
     },
 });
