@@ -72,7 +72,7 @@ const RegisterScreen = ({ navigation }, props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.38:5000/addClient', {
+        fetch('http://192.168.1.95000/addClient', {
             method: 'POST',
             body: JSON.stringify({ name: name, phone: phone, email: email }),
             headers: {
@@ -134,7 +134,7 @@ const RegisterScreen = ({ navigation }, props) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#cc30a0' }}>
+        <View style={{ flex: 1, backgroundColor: '#4682b4' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
@@ -144,10 +144,10 @@ const RegisterScreen = ({ navigation }, props) => {
                 }}>
                 <View style={{ alignItems: 'center' }}>
                     <Image
-                        source={require('../Image/aboutreact.png')}
+                        source={require('../Image/logo-creatink.png')}
                         style={{
                             width: '50%',
-                            height: 100,
+                            height: 180,
                             resizeMode: 'contain',
                             margin: 30,
                         }}
@@ -254,7 +254,7 @@ const RegisterScreen = ({ navigation }, props) => {
                         style={styles.buttonStyle}
                         activeOpacity={0.5}
                         onPress={() => navigation.navigate('TestScreen')}>
-                        <Text style={styles.buttonTextStyle}>TEST SCREEN</Text>
+                        <Text style={styles.buttonTextStyle}>MAIN MENU</Text>
                     </TouchableOpacity>
 
                 </KeyboardAvoidingView>

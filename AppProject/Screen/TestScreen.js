@@ -6,13 +6,14 @@ import {
     FlatList,
     Button
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 
 const TestScreen = ({navigation}) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://192.168.1.38:5000/getAllClients', {
+        fetch('http://192.168.1.9:5000/getAllClients', {
             method: 'GET'
         })
             .then(resp => resp.json())
@@ -30,6 +31,11 @@ const TestScreen = ({navigation}) => {
             </Card>
         )
     }
+    const handleClearButtonClick = () => {
+        setPaths([]);
+        setCurrentPath([]);
+        setClearButtonClicked(true);
+    };
 
     return (
         <View>
@@ -44,13 +50,13 @@ const TestScreen = ({navigation}) => {
             <Text
                 style={styles.registerTextStyle}
                 onPress={() => navigation.navigate('RegisterScreen')}>
-                TEST
+                Register and Login Page
             </Text>
-
+            <View style={styles.space} />
             <Text
-                style={styles.registerTextStyle}
+                style={styles.registerTextStyle2} 
                 onPress={() => navigation.navigate('DrawingScreen')}>
-                DRAW
+                Drawing Page
             </Text>
 
         </View>
@@ -102,12 +108,25 @@ const styles = StyleSheet.create({
         borderColor: '#dadae8',
     },
     registerTextStyle: {
-        color: 'black',
+        color: 'white',
+        backgroundColor:'orange',
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 30,
         alignSelf: 'center',
         padding: 10,
+        marginTop:10,
+        marginBottom:10,
+    },
+    registerTextStyle2: {
+        color: 'white',
+        backgroundColor:'blue',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 30,
+        alignSelf: 'center',
+        padding: 10,
+        marginTop:10
     },
     errorTextStyle: {
         color: 'red',
