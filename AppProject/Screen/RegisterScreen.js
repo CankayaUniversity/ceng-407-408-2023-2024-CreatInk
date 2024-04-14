@@ -134,7 +134,7 @@ const RegisterScreen = ({ navigation }, props) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#4682b4' }}>
+        <View style={{ flex: 1, backgroundColor: '#778899' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
@@ -144,10 +144,10 @@ const RegisterScreen = ({ navigation }, props) => {
                 }}>
                 <View style={{ alignItems: 'center' }}>
                     <Image
-                        source={require('../Image/logo-creatink.png')}
+                        source={require('../Image/creatink-high-resolution-logo-transparent.png')}
                         style={{
-                            width: '50%',
-                            height: 180,
+                            width: '60%',
+                            height: 240,
                             resizeMode: 'contain',
                             margin: 30,
                         }}
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     buttonStyle: {
-        backgroundColor: '#3cb371',
+        backgroundColor: 'gray',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#7DE24E',

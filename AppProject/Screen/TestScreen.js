@@ -41,7 +41,7 @@ const TestScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
                 <Image
-                    source={require('../Image/logo-creatink.png')}
+                    source={require('../Image/creatink-high-resolution-logo-transparent.png')}
                     style={styles.imageStyle}
                     />
             
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor:'#4682b4',
+        backgroundColor:'#778899',
         justifyContent:'center',
         alignItems: 'center',
         paddingBottom: 500,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     registerTextStyle: {
         color: 'white',
-        backgroundColor:'#3cb371',
+        backgroundColor:'gray',
         fontWeight: 'bold',
         fontSize: 30,
         alignSelf: 'flex-start',
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     registerTextStyle2: {
         color: 'white',
-        backgroundColor:'#3cb371',
+        backgroundColor:'gray',
         fontWeight: 'bold',
         fontSize: 30,
         alignSelf: 'flex-start',
@@ -146,11 +146,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     imageStyle: {
-        width: 500,
-        height: 500,
+        width: 400,
+        height: 400,
         resizeMode: 'contain',
         marginBottom:0,
-        marginTop:0,
+        marginTop:200,
         alignSelf: 'center',
     },
 });
