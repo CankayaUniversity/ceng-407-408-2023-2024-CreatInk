@@ -1,7 +1,3 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
 import React, { useState, createRef } from 'react';
 import {
     StyleSheet,
@@ -68,7 +64,7 @@ const RegisterScreen = ({ navigation }, props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.35:5000/addClient', {
+        fetch('http://192.168.1.36:5000/addClient', {
             method: 'POST',
             body: JSON.stringify({ name: name, password: password, email: email }),
             headers: {
@@ -246,23 +242,23 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 40,
-        marginTop: 20,
+        marginTop: 5,
         marginLeft: 35,
         marginRight: 35,
-        margin: 10,
+        margin: 5,
     },
     buttonStyle: {
-        backgroundColor: 'gray',
+        backgroundColor: '#333333',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#7DE24E',
         height: 40,
         alignItems: 'center',
         borderRadius: 30,
-        marginLeft: 35,
-        marginRight: 35,
-        marginTop: 20,
-        marginBottom: 20,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 2,
+        marginBottom: 2,
     },
     buttonTextStyle: {
         color: '#FFFFFF',

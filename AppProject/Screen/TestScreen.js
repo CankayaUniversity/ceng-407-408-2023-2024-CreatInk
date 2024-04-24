@@ -11,11 +11,11 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 
-const TestScreen = ({navigation}) => {
+const TestScreen = ({ navigation }) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://192.168.1.35:5000/getAllClients', {
+        fetch('http://192.168.1.36:5000/getAllClients', {
             method: 'GET'
         })
             .then(resp => resp.json())
@@ -41,41 +41,39 @@ const TestScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-                <Image
-                    source={require('../Image/creatink-high-resolution-logo-transparent.png')}
-                    style={styles.imageStyle}
-                    />
-            
-                <FlatList
-                    data={data}
-                    renderItem={({ item }) => {
-                        return renderData(item)
-                    }}
-                    keyExtractor={item => `${item.id}`}
-                />
+            <Image
+                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
+                style={styles.imageStyle}
+            />
 
-                <Text
-                    style={styles.registerTextStyle}
-                    onPress={() => navigation.navigate('RegisterScreen')}>
-                    Register Page
-                </Text>
-                <View style={styles.space} />
-                <Text
-                    style={styles.registerTextStyle2} 
-                    onPress={() => navigation.navigate('DrawingScreen')}>
-                    Drawing Page
-                </Text>
+            <FlatList
+                data={data}
+                renderItem={({ item }) => {
+                    return renderData(item)
+                }}
+                keyExtractor={item => `${item.id}`}
+            />
 
-            <Text
-                style={styles.registerTextStyle}
-                onPress={() => navigation.navigate('DrawingScreen')}>
-                DRAW
-            </Text>
-            <Text
-                style={styles.registerTextStyle}
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('RegisterScreen')}>
+                <Text style={styles.buttonTextStyle}>Register</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
                 onPress={() => navigation.navigate('LoginScreen')}>
-                LOGIN
-            </Text>
+                <Text style={styles.buttonTextStyle}>Login</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('DrawingScreen')}>
+                <Text style={styles.buttonTextStyle}>Draw</Text>
+            </TouchableOpacity>
         </View>
     )
 };
@@ -91,31 +89,30 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor:'#778899',
-        justifyContent:'center',
-        alignItems: 'center',
+        backgroundColor: '#778899',
+        justifyContent: 'center',
         paddingBottom: 500,
     },
     SectionStyle: {
         flexDirection: 'row',
         height: 40,
-        marginTop: 20,
+        marginTop: 5,
         marginLeft: 35,
         marginRight: 35,
-        margin: 10,
+        margin: 5,
     },
     buttonStyle: {
-        backgroundColor: '#7DE24E',
+        backgroundColor: '#333333',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#7DE24E',
         height: 40,
         alignItems: 'center',
         borderRadius: 30,
-        marginLeft: 35,
-        marginRight: 35,
-        marginTop: 20,
-        marginBottom: 25,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 2,
+        marginBottom: 2,
     },
     buttonTextStyle: {
         color: '#FFFFFF',
@@ -133,23 +130,14 @@ const styles = StyleSheet.create({
     },
     registerTextStyle: {
         color: 'white',
-        backgroundColor:'gray',
+        backgroundColor: '#333333',
         fontWeight: 'bold',
         fontSize: 30,
         alignSelf: 'flex-start',
         padding: 10,
-        marginTop:10,
-        marginBottom:20,
-    },
-    registerTextStyle2: {
-        color: 'white',
-        backgroundColor:'gray',
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'flex-start',
-        padding: 10,
-        marginTop:10,
+        marginTop: 10,
         marginBottom: 20,
+        alignSelf: 'center',
     },
     errorTextStyle: {
         color: 'red',
@@ -160,8 +148,8 @@ const styles = StyleSheet.create({
         width: 400,
         height: 400,
         resizeMode: 'contain',
-        marginBottom:0,
-        marginTop:200,
+        marginBottom: 0,
+        marginTop: 450,
         alignSelf: 'center',
     },
 });

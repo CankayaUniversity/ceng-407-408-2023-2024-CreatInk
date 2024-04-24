@@ -47,33 +47,33 @@ const LoginScreen = ({ navigation }) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.35:5000/login', {
+        fetch('http://192.168.1.36:5000/login', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              email: email,
-              password: password
+                email: email,
+                password: password
             })
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            if (data.message === 'successful') {
-              // Başarılı giriş durumunda anasayfaya yönlendirme
-              navigation.navigate('DrawingScreen')
-            } else {
-              console.error('Giriş başarısız');
-              // Giriş başarısız olduğunda kullanıcıya hata mesajı gösterilebilir veya başka bir işlem yapılabilir
-            }
-          })
-          .catch(error => console.error('Hata:', error));
-      
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.message === 'successful') {
+                    // Başarılı giriş durumunda anasayfaya yönlendirme
+                    navigation.navigate('DrawingScreen')
+                } else {
+                    console.error('Giriş başarısız');
+                    // Giriş başarısız olduğunda kullanıcıya hata mesajı gösterilebilir veya başka bir işlem yapılabilir
+                }
+            })
+            .catch(error => console.error('Hata:', error));
+
     };
 
     return (
-        <View style={styles.mainBody}>
+        <View style={{ flex: 1, backgroundColor: '#778899' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
@@ -86,10 +86,10 @@ const LoginScreen = ({ navigation }) => {
                     <KeyboardAvoidingView enabled>
                         <View style={{ alignItems: 'center' }}>
                             <Image
-                                source={require('../Image/aboutreact.png')}
+                                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
                                 style={{
-                                    width: '50%',
-                                    height: 100,
+                                    width: '60%',
+                                    height: 240,
                                     resizeMode: 'contain',
                                     margin: 30,
                                 }}
@@ -142,17 +142,19 @@ const LoginScreen = ({ navigation }) => {
                             onPress={handleSubmitPress}>
                             <Text style={styles.buttonTextStyle}>LOGIN</Text>
                         </TouchableOpacity>
-                        <Text
-                            style={styles.registerTextStyle}
+                        <TouchableOpacity
+                            style={styles.buttonStyle}
+                            activeOpacity={0.5}
                             onPress={() => navigation.navigate('RegisterScreen')}>
-                            New Here ? Register
-                        </Text>
+                            <Text style={styles.buttonTextStyle}>New here? Register</Text>
+                        </TouchableOpacity>
 
-                        <Text
-                            style={styles.registerTextStyle}
+                        <TouchableOpacity
+                            style={styles.buttonStyle}
+                            activeOpacity={0.5}
                             onPress={() => navigation.navigate('TestScreen')}>
-                            TEST
-                        </Text>
+                            <Text style={styles.buttonTextStyle}>MAIN MENU</Text>
+                        </TouchableOpacity>
 
                     </KeyboardAvoidingView>
                 </View>
@@ -172,23 +174,23 @@ const styles = StyleSheet.create({
     SectionStyle: {
         flexDirection: 'row',
         height: 40,
-        marginTop: 20,
+        marginTop: 5,
         marginLeft: 35,
         marginRight: 35,
-        margin: 10,
+        margin: 5,
     },
     buttonStyle: {
-        backgroundColor: '#7DE24E',
+        backgroundColor: '#333333',
         borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#7DE24E',
+        color: '#000000',
+        borderColor: '#000000',
         height: 40,
         alignItems: 'center',
         borderRadius: 30,
-        marginLeft: 35,
-        marginRight: 35,
-        marginTop: 20,
-        marginBottom: 25,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 2,
+        marginBottom: 2,
     },
     buttonTextStyle: {
         color: '#FFFFFF',
