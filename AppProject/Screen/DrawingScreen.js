@@ -4,32 +4,27 @@ import { Svg, Path } from 'react-native-svg';
 
 const { height, width } = Dimensions.get('window');
 
-export default () => {
+export default function DrawingApp() {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
-    const [isClearButtonClicked, setClearButtonClicked] = useState(false);
-    const [currentColor, setCurrentColor] = useState('black'); // Başlangıç rengi
-
-    const onTouchEnd = () => {
-        paths.push({ path: currentPath, color: currentColor });
-        setCurrentPath([]);
-        setClearButtonClicked(false);
-    };
-    
+    const [currentColor, setCurrentColor] = useState('white'); // Başlangıç rengi
 
     const onTouchMove = (event) => {
-        const newPath = [...currentPath];
         const locationX = event.nativeEvent.locationX;
         const locationY = event.nativeEvent.locationY;
-        const newPoint = `${newPath.length === 0 ? 'M' : ''}${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-        newPath.push(newPoint);
-        setCurrentPath(newPath);
+        const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        setCurrentPath(currentPath => [...currentPath, newPoint]);
+    };
+
+    const onTouchEnd = () => {
+        if (currentPath.length > 0) {
+            setPaths(paths => [...paths, { path: currentPath, color: currentColor }]);
+            setCurrentPath([]);
+        }
     };
 
     const handleClearButtonClick = () => {
         setPaths([]);
-        setCurrentPath([]);
-        setClearButtonClicked(true);
     };
 
     const changeColor = (color) => {
@@ -38,77 +33,70 @@ export default () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.Text2}>Drawing Page</Text>
+            <Text style={styles.textHeader}>Drawing Page</Text>
             <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 <Svg height={height * 0.7} width={width}>
-                    <Path
-                        d={paths.map(({ path }) => path).join('')}
-                        stroke={isClearButtonClicked ? 'transparent' : currentColor}
-                        fill={'transparent'}
-                        strokeWidth={3}
-                        strokeLinejoin={'round'}
-                        strokeLinecap={'round'}
-                    />
                     {paths.map(({ path, color }, index) => (
                         <Path
                             key={`path-${index}`}
-                            d={path.join('')}
-                            stroke={isClearButtonClicked ? 'transparent' : color}
-                            fill={'transparent'}
-                            strokeWidth={2}
-                            strokeLinejoin={'round'}
-                            strokeLinecap={'round'}
+                            d={path.join(' ')}
+                            stroke={color}
+                            fill="transparent"
+                            strokeWidth={3}
+                            strokeLinejoin="round"
+                            strokeLinecap="round"
                         />
                     ))}
                 </Svg>
             </View>
-            <View style={styles.container}>
-                <Text style={styles.Text2}> Colors</Text>
-            </View>
-            
             <View style={styles.colorPickerContainer}>
+                <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'black' }]} onPress={() => changeColor('black')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'red' }]} onPress={() => changeColor('red')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'blue' }]} onPress={() => changeColor('blue')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'green' }]} onPress={() => changeColor('green')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'yellow' }]} onPress={() => changeColor('yellow')} />
-                {}
             </View>
             <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
                 <Text style={styles.clearButtonText}>Clear All</Text>
             </TouchableOpacity>
-            
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#f0f0f0', 
     },
-    Text: {
-        color: 'white',
-        borderColor: 'white',
-        backgroundColor: 'pink',
-        fontSize: 50,
-    },
-    Text2: {
-        color:'white',
-        bordercolor:'white',
-        backgroundColor: 'black',
-        fontSize: 50,
+    textHeader: {
+        color: 'black',
+        fontSize: 24,
+        margin: 10,
+        fontWeight: 'bold'
     },
     svgContainer: {
         height: height * 0.7,
-        width,
-        borderColor: 'black',
+        width: width,
         backgroundColor: 'white',
         borderWidth: 1,
+        borderColor: 'black',
+    },
+    colorPickerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    colorButton: {
+        width: 40,
+        height: 40,
+        marginHorizontal: 10,
+        borderRadius: 20,
     },
     clearButton: {
-        marginTop: 10,
-        backgroundColor: 'black',
+        marginTop: 20,
+        backgroundColor: 'red',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
@@ -118,15 +106,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    colorPickerContainer: {
-        flexDirection: 'row',
-        marginTop: 10,
-    },
-    colorButton: {
-        width: 40,
-        height: 40,
-        marginHorizontal: 5,
-        borderRadius: 20,
-    },
-    
 });
