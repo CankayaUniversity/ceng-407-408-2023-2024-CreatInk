@@ -20,8 +20,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
 
 const LoginScreen = ({ navigation }) => {
-    const [userEmail, setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
+    const [email, setUserEmail] = useState('');
+    const [password, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
 
@@ -29,16 +29,16 @@ const LoginScreen = ({ navigation }) => {
 
     const handleSubmitPress = () => {
         setErrortext('');
-        if (!userEmail) {
+        if (!email) {
             alert('Please fill Email');
             return;
         }
-        if (!userPassword) {
+        if (!password) {
             alert('Please fill Password');
             return;
         }
         setLoading(true);
-        let dataToSend = { email: userEmail, password: userPassword };
+        let dataToSend = { email: email, password: password };
         let formBody = [];
         for (let key in dataToSend) {
             let encodedKey = encodeURIComponent(key);
@@ -47,35 +47,29 @@ const LoginScreen = ({ navigation }) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://localhost:3000/api/user/login', {
+        fetch('http://192.168.1.35:5000/login', {
             method: 'POST',
-            body: formBody,
             headers: {
-                //Header Defination
-                'Content-Type':
-                    'application/x-www-form-urlencoded;charset=UTF-8',
+              'Content-Type': 'application/json'
             },
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                //Hide Loader
-                setLoading(false);
-                console.log(responseJson);
-                // If server response message same as Data Matched
-                if (responseJson.status === 'success') {
-                    AsyncStorage.setItem('user_id', responseJson.data.email);
-                    console.log(responseJson.data.email);
-                    navigation.replace('DrawerNavigationRoutes');
-                } else {
-                    setErrortext(responseJson.msg);
-                    console.log('Please check your email id or password');
-                }
+            body: JSON.stringify({
+              email: email,
+              password: password
             })
-            .catch((error) => {
-                //Hide Loader
-                setLoading(false);
-                console.error(error);
-            });
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            if (data.message === 'successful') {
+              // Başarılı giriş durumunda anasayfaya yönlendirme
+              navigation.navigate('DrawingScreen')
+            } else {
+              console.error('Giriş başarısız');
+              // Giriş başarısız olduğunda kullanıcıya hata mesajı gösterilebilir veya başka bir işlem yapılabilir
+            }
+          })
+          .catch(error => console.error('Hata:', error));
+      
     };
 
     return (
@@ -104,8 +98,8 @@ const LoginScreen = ({ navigation }) => {
                         <View style={styles.SectionStyle}>
                             <TextInput
                                 style={styles.inputStyle}
-                                onChangeText={(UserEmail) =>
-                                    setUserEmail(UserEmail)
+                                onChangeText={(email) =>
+                                    setUserEmail(email)
                                 }
                                 placeholder="Enter Email" //dummy@abc.com
                                 placeholderTextColor="#8b9cb5"
@@ -123,8 +117,8 @@ const LoginScreen = ({ navigation }) => {
                         <View style={styles.SectionStyle}>
                             <TextInput
                                 style={styles.inputStyle}
-                                onChangeText={(UserPassword) =>
-                                    setUserPassword(UserPassword)
+                                onChangeText={(password) =>
+                                    setUserPassword(password)
                                 }
                                 placeholder="Enter Password" //12345
                                 placeholderTextColor="#8b9cb5"

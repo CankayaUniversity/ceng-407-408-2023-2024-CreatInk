@@ -8,7 +8,7 @@ export default () => {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
     const [isClearButtonClicked, setClearButtonClicked] = useState(false);
-    const [currentColor, setCurrentColor] = useState('red'); // Başlangıç rengi
+    const [currentColor, setCurrentColor] = useState('black'); // Başlangıç rengi
 
     const onTouchEnd = () => {
         paths.push({ path: currentPath, color: currentColor });

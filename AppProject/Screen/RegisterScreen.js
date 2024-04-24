@@ -20,9 +20,8 @@ import Loader from './Components/Loader';
 const RegisterScreen = ({ navigation }, props) => {
     const [name, setUserName] = useState('');
     const [email, setUserEmail] = useState('');
-    const [phone, setUserAge] = useState('');
+    const [password, setUserAge] = useState('');
     const [userAddress, setUserAddress] = useState('');
-    const [userPassword, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
     const [
@@ -45,23 +44,20 @@ const RegisterScreen = ({ navigation }, props) => {
             alert('Please fill Email');
             return;
         }
-        if (!phone) {
-            alert('Please fill Age');
+        if (!password) {
+            alert('Please fill Password');
             return;
         }
         if (!userAddress) {
             alert('Please fill Address');
             return;
         }
-        if (!userPassword) {
-            alert('Please fill Password');
-            return;
-        }
+       
         //Show Loader
         setLoading(true);
         var dataToSend = {
             name: name,
-            phone: phone,
+            password: password,
             email: email,
         };
         var formBody = [];
@@ -72,9 +68,9 @@ const RegisterScreen = ({ navigation }, props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.38:5000/addClient', {
+        fetch('http://192.168.1.35:5000/addClient', {
             method: 'POST',
-            body: JSON.stringify({ name: name, phone: phone, email: email }),
+            body: JSON.stringify({ name: name, password: password, email: email }),
             headers: {
                 //Header Defination
                 'Content-Type':
@@ -172,7 +168,7 @@ const RegisterScreen = ({ navigation }, props) => {
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(UserEmail) => setUserEmail(UserEmail)}
+                            onChangeText={(email) => setUserEmail(email)}
                             underlineColorAndroid="#f000"
                             placeholder="Enter Email"
                             placeholderTextColor="#8b9cb5"
@@ -186,33 +182,15 @@ const RegisterScreen = ({ navigation }, props) => {
                             blurOnSubmit={false}
                         />
                     </View>
-                    <View style={styles.SectionStyle}>
-                        <TextInput
-                            style={styles.inputStyle}
-                            onChangeText={(UserPassword) =>
-                                setUserPassword(UserPassword)
-                            }
-                            underlineColorAndroid="#f000"
-                            placeholder="Enter Password"
-                            placeholderTextColor="#8b9cb5"
-                            ref={passwordInputRef}
-                            returnKeyType="next"
-                            secureTextEntry={true}
-                            onSubmitEditing={() =>
-                                ageInputRef.current &&
-                                ageInputRef.current.focus()
-                            }
-                            blurOnSubmit={false}
-                        />
-                    </View>
+        
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
                             onChangeText={(UserAge) => setUserAge(UserAge)}
                             underlineColorAndroid="#f000"
-                            placeholder="Enter Age"
+                            placeholder="Enter Password"
                             placeholderTextColor="#8b9cb5"
-                            keyboardType="numeric"
+                            keyboardType="sentences"
                             ref={ageInputRef}
                             returnKeyType="next"
                             onSubmitEditing={() =>

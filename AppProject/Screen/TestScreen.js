@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
     StyleSheet,
     View,
@@ -12,7 +13,7 @@ const TestScreen = ({navigation}) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://192.168.1.38:5000/getAllClients', {
+        fetch('http://192.168.1.35:5000/getAllClients', {
             method: 'GET'
         })
             .then(resp => resp.json())
@@ -52,7 +53,11 @@ const TestScreen = ({navigation}) => {
                 onPress={() => navigation.navigate('DrawingScreen')}>
                 DRAW
             </Text>
-
+            <Text
+                style={styles.registerTextStyle}
+                onPress={() => navigation.navigate('LoginScreen')}>
+                LOGIN
+            </Text>
         </View>
     )
 };
