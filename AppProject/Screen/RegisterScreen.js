@@ -130,7 +130,7 @@ const RegisterScreen = ({ navigation }, props) => {
         );
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#cc30a0' }}>
+        <View style={{ flex: 1, backgroundColor: '#778899' }}>
             <Loader loading={loading} />
             <ScrollView
                 keyboardShouldPersistTaps="handled"
@@ -140,10 +140,10 @@ const RegisterScreen = ({ navigation }, props) => {
                 }}>
                 <View style={{ alignItems: 'center' }}>
                     <Image
-                        source={require('../Image/aboutreact.png')}
+                        source={require('../Image/creatink-high-resolution-logo-transparent.png')}
                         style={{
-                            width: '50%',
-                            height: 100,
+                            width: '60%',
+                            height: 240,
                             resizeMode: 'contain',
                             margin: 30,
                         }}
@@ -232,7 +232,7 @@ const RegisterScreen = ({ navigation }, props) => {
                         style={styles.buttonStyle}
                         activeOpacity={0.5}
                         onPress={() => navigation.navigate('TestScreen')}>
-                        <Text style={styles.buttonTextStyle}>TEST SCREEN</Text>
+                        <Text style={styles.buttonTextStyle}>MAIN MENU</Text>
                     </TouchableOpacity>
 
                 </KeyboardAvoidingView>
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     buttonStyle: {
-        backgroundColor: '#7DE24E',
+        backgroundColor: 'gray',
         borderWidth: 0,
         color: '#FFFFFF',
         borderColor: '#7DE24E',

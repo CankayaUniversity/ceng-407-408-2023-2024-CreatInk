@@ -15,6 +15,7 @@ export default () => {
         setCurrentPath([]);
         setClearButtonClicked(false);
     };
+    
 
     const onTouchMove = (event) => {
         const newPath = [...currentPath];
@@ -37,7 +38,7 @@ export default () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.Text}>Drawing Page</Text>
+            <Text style={styles.Text2}>Drawing Page</Text>
             <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
                 <Svg height={height * 0.7} width={width}>
                     <Path
@@ -61,6 +62,10 @@ export default () => {
                     ))}
                 </Svg>
             </View>
+            <View style={styles.container}>
+                <Text style={styles.Text2}> Colors</Text>
+            </View>
+            
             <View style={styles.colorPickerContainer}>
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'red' }]} onPress={() => changeColor('red')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'blue' }]} onPress={() => changeColor('blue')} />
@@ -69,8 +74,9 @@ export default () => {
                 {}
             </View>
             <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-                <Text style={styles.clearButtonText}>Clear</Text>
+                <Text style={styles.clearButtonText}>Clear All</Text>
             </TouchableOpacity>
+            
         </View>
     );
 };
@@ -85,6 +91,12 @@ const styles = StyleSheet.create({
         color: 'white',
         borderColor: 'white',
         backgroundColor: 'pink',
+        fontSize: 50,
+    },
+    Text2: {
+        color:'white',
+        bordercolor:'white',
+        backgroundColor: 'black',
         fontSize: 50,
     },
     svgContainer: {
@@ -116,4 +128,5 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         borderRadius: 20,
     },
+    
 });

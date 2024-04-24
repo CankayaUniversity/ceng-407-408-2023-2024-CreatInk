@@ -5,8 +5,10 @@ import {
     View,
     Text,
     FlatList,
-    Button
+    Button,
+    Image
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 
 const TestScreen = ({navigation}) => {
@@ -31,22 +33,38 @@ const TestScreen = ({navigation}) => {
             </Card>
         )
     }
+    const handleClearButtonClick = () => {
+        setPaths([]);
+        setCurrentPath([]);
+        setClearButtonClicked(true);
+    };
 
     return (
-        <View>
-            <FlatList
-                data={data}
-                renderItem={({ item }) => {
-                    return renderData(item)
-                }}
-                keyExtractor={item => `${item.id}`}
-            />
+        <View style={styles.container}>
+                <Image
+                    source={require('../Image/creatink-high-resolution-logo-transparent.png')}
+                    style={styles.imageStyle}
+                    />
+            
+                <FlatList
+                    data={data}
+                    renderItem={({ item }) => {
+                        return renderData(item)
+                    }}
+                    keyExtractor={item => `${item.id}`}
+                />
 
-            <Text
-                style={styles.registerTextStyle}
-                onPress={() => navigation.navigate('RegisterScreen')}>
-                TEST
-            </Text>
+                <Text
+                    style={styles.registerTextStyle}
+                    onPress={() => navigation.navigate('RegisterScreen')}>
+                    Register Page
+                </Text>
+                <View style={styles.space} />
+                <Text
+                    style={styles.registerTextStyle2} 
+                    onPress={() => navigation.navigate('DrawingScreen')}>
+                    Drawing Page
+                </Text>
 
             <Text
                 style={styles.registerTextStyle}
@@ -70,6 +88,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#cc30a0',
         alignContent: 'center',
+    },
+    container: {
+        flex: 1,
+        backgroundColor:'#778899',
+        justifyContent:'center',
+        alignItems: 'center',
+        paddingBottom: 500,
     },
     SectionStyle: {
         flexDirection: 'row',
@@ -107,16 +132,36 @@ const styles = StyleSheet.create({
         borderColor: '#dadae8',
     },
     registerTextStyle: {
-        color: 'black',
-        textAlign: 'center',
+        color: 'white',
+        backgroundColor:'gray',
         fontWeight: 'bold',
-        fontSize: 14,
-        alignSelf: 'center',
+        fontSize: 30,
+        alignSelf: 'flex-start',
         padding: 10,
+        marginTop:10,
+        marginBottom:20,
+    },
+    registerTextStyle2: {
+        color: 'white',
+        backgroundColor:'gray',
+        fontWeight: 'bold',
+        fontSize: 30,
+        alignSelf: 'flex-start',
+        padding: 10,
+        marginTop:10,
+        marginBottom: 20,
     },
     errorTextStyle: {
         color: 'red',
         textAlign: 'center',
         fontSize: 14,
+    },
+    imageStyle: {
+        width: 400,
+        height: 400,
+        resizeMode: 'contain',
+        marginBottom:0,
+        marginTop:200,
+        alignSelf: 'center',
     },
 });
