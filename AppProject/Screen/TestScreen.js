@@ -9,36 +9,9 @@ import {
     Image
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Card } from 'react-native-paper';
 
 const TestScreen = ({ navigation }) => {
     const [data, setData] = useState([])
-
-    useEffect(() => {
-        fetch('http://192.168.1.36:5000/getAllClients', {
-            method: 'GET'
-        })
-            .then(resp => resp.json())
-            .then(client => {
-                setData(client)
-            })
-    }, [])
-
-    const renderData = (item) => {
-        return (
-            <Card>
-                <Text>{item.name}</Text>
-                <Text>{item.phone}</Text>
-                <Text>{item.email}</Text>
-            </Card>
-        )
-    }
-    const handleClearButtonClick = () => {
-        setPaths([]);
-        setCurrentPath([]);
-        setClearButtonClicked(true);
-    };
-
     return (
         <View style={styles.container}>
             <Image

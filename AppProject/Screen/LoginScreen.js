@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://192.168.1.36:5000/login', {
+        fetch('http://10.0.2.2:5000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
