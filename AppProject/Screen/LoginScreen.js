@@ -63,13 +63,20 @@ const LoginScreen = ({ navigation }) => {
                 console.log(data);
                 if (data.message === 'successful') {
                     // Başarılı giriş durumunda anasayfaya yönlendirme
-                    navigation.navigate('TestScreen')
+                    navigation.navigate('TestScreen');
+                    alert('Successful login.');
+                    return;
+                } else if (data.message === 'email_not_found') {
+                    navigation.navigate('LoginScreen');
+                    alert('Wrong email or password.');
+                    return;
                 } else {
-                    navigation.navigate('LoginScreen')
+                    navigation.navigate('LoginScreen');
+                    alert('Wrong email or password.');
+                    return;
                 }
             })
-            .catch(error => console.error('Hata:', error));
-
+            .catch(error => console.error("Error: " + error));
     };
 
     return (
