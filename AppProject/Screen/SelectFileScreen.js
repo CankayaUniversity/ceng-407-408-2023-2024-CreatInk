@@ -8,48 +8,86 @@ import {
     Button,
     Image
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const TestScreen = ({ navigation }) => {
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera } from 'react-native-image-picker';
+
+const SelectFileScreen = ({ navigation }) => {
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const openImagePicker = () => {
+        const options = {
+            mediaType: 'photo',
+            includeBase64: false,
+            maxHeight: 2000,
+            maxWidth: 2000,
+        };
+
+        launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('Image picker error: ', response.error);
+            } else {
+                let imageUri = response.uri || response.assets?.[0]?.uri;
+                setSelectedImage(imageUri);
+            }
+        });
+    };
+
+    const handleCameraLaunch = () => {
+        const options = {
+            mediaType: 'photo',
+            includeBase64: false,
+            maxHeight: 2000,
+            maxWidth: 2000,
+        };
+
+        launchCamera(options, response => {
+            if (response.didCancel) {
+                console.log('User cancelled camera');
+            } else if (response.error) {
+                console.log('Camera Error: ', response.error);
+            } else {
+                let imageUri = response.uri || response.assets?.[0]?.uri;
+                setSelectedImage(imageUri);
+                console.log(imageUri);
+            }
+        });
+    }
+
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
-                style={styles.imageStyle}
-            />
-
+            {selectedImage && (
+                <Image
+                    source={{ uri: selectedImage }}
+                    style={styles.imageStyle}
+                />
+            )}
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('RegisterScreen')}>
-                <Text style={styles.buttonTextStyle}>Register</Text>
+                onPress={openImagePicker}>
+                <Text style={styles.buttonTextStyle}>Select File</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('LoginScreen')}>
-                <Text style={styles.buttonTextStyle}>Login</Text>
+                onPress={handleCameraLaunch}>
+                <Text style={styles.buttonTextStyle}>Take Photo</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('DrawingScreen')}>
-                <Text style={styles.buttonTextStyle}>Draw</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('SelectFileScreen')}>
-                <Text style={styles.buttonTextStyle}>Select File / Use Camera</Text>
+                onPress={() => navigation.navigate('TestScreen')}>
+                <Text style={styles.buttonTextStyle}>Main Menu</Text>
             </TouchableOpacity>
         </View>
     )
 };
 
-export default TestScreen;
+export default SelectFileScreen;
 
 const styles = StyleSheet.create({
     mainBody: {

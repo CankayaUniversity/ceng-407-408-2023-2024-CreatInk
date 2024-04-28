@@ -10,13 +10,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Import Screens
-import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
-import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import TestScreen from './Screen/TestScreen';
-import HomeScreen from './Screen/DrawerScreens/HomeScreen';
 import DrawingScreen from './Screen/DrawingScreen';
+import SelectFileScreen from './Screen/SelectFileScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -72,9 +71,12 @@ const App = () => {
           component={DrawingScreen}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="SelectFileScreen"
+          component={SelectFileScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
-    
     </NavigationContainer>
   );
 };
