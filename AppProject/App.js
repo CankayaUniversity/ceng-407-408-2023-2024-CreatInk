@@ -16,7 +16,6 @@ import TestScreen from './Screen/TestScreen';
 import DrawingScreen from './Screen/DrawingScreen';
 import SelectFileScreen from './Screen/SelectFileScreen';
 
-
 const Stack = createStackNavigator();
 
 // const Auth = () => {
@@ -48,9 +47,8 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer>      
       <Stack.Navigator>
-
         <Stack.Screen
           name="TestScreen"
           component={TestScreen}
