@@ -5,7 +5,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 
-const HomeScreen = () => {
+const PersonalInfo = () => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1, padding: 16 }}>
@@ -21,16 +21,21 @@ const HomeScreen = () => {
                             textAlign: 'center',
                             marginBottom: 16,
                         }}>
-                        
+                        Personal Info {'\n\n\n\n'}
+                        Name: {'\n\n'}
+                        Email: {'\n\n'}
+                        Password: {'\n\n'}
+                        Address: {'\n\n'}
                         {'\n\n'}
-                        This is the Home Screen
+                        You can change your informations
+                        
                     </Text>
                 </View>
                 <Text
                     style={{
                         fontSize: 18,
                         textAlign: 'center',
-                        color: 'grey',
+                        color: '#d8d8d8',
                     }}>
                     
                 </Text>
@@ -38,7 +43,7 @@ const HomeScreen = () => {
                     style={{
                         fontSize: 16,
                         textAlign: 'center',
-                        color: 'grey',
+                        color: '#d8d8d8',
                     }}>
                     CreatINK
                 </Text>
@@ -47,4 +52,4 @@ const HomeScreen = () => {
     );
 };
 
-export default HomeScreen;
+export default PersonalInfo;

@@ -5,7 +5,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 
-const HomeScreen = () => {
+const Calendar = () => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1, padding: 16 }}>
@@ -21,16 +21,16 @@ const HomeScreen = () => {
                             textAlign: 'center',
                             marginBottom: 16,
                         }}>
-                        
+                        This screen shows your appointments
                         {'\n\n'}
-                        This is the Home Screen
+                        
                     </Text>
                 </View>
                 <Text
                     style={{
                         fontSize: 18,
                         textAlign: 'center',
-                        color: 'grey',
+                        color: '#d8d8d8',
                     }}>
                     
                 </Text>
@@ -38,7 +38,7 @@ const HomeScreen = () => {
                     style={{
                         fontSize: 16,
                         textAlign: 'center',
-                        color: 'grey',
+                        color: '#d8d8d8',
                     }}>
                     CreatINK
                 </Text>
@@ -47,4 +47,4 @@ const HomeScreen = () => {
     );
 };
 
-export default HomeScreen;
+export default Calendar;
