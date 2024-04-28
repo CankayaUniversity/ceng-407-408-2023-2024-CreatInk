@@ -188,12 +188,6 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="TestScreen"
-          component={TestScreen}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name="DrawingScreen"
           component={DrawingApp}
           // Hiding header for Splash Screen

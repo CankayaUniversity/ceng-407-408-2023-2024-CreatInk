@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
                 console.log(data);
                 if (data.message === 'successful') {
                     // Başarılı giriş durumunda anasayfaya yönlendirme
-                    navigation.navigate('TestScreen')
+                    navigation.replace('DrawerNavigationRoutes');
                 } else {
                     navigation.navigate('LoginScreen')
                 }
