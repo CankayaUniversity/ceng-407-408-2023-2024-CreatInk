@@ -122,9 +122,9 @@ const LoginScreen = ({ navigation }) => {
                                 }
                                 placeholder="Enter Password" //12345
                                 placeholderTextColor="#8b9cb5"
-                                keyboardType="default"
                                 ref={passwordInputRef}
                                 onSubmitEditing={Keyboard.dismiss}
+                                autoCapitalize="none"
                                 blurOnSubmit={false}
                                 secureTextEntry={true}
                                 underlineColorAndroid="#f000"

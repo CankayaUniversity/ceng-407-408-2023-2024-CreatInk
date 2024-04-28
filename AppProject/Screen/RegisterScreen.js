@@ -48,7 +48,7 @@ const RegisterScreen = ({ navigation }, props) => {
             alert('Please fill Address');
             return;
         }
-       
+
         //Show Loader
         setLoading(true);
         var dataToSend = {
@@ -153,8 +153,8 @@ const RegisterScreen = ({ navigation }, props) => {
                             underlineColorAndroid="#f000"
                             placeholder="Enter Name"
                             placeholderTextColor="#8b9cb5"
-                            autoCapitalize="sentences"
                             returnKeyType="next"
+                            autoCapitalize="none"
                             onSubmitEditing={() =>
                                 emailInputRef.current && emailInputRef.current.focus()
                             }
@@ -171,6 +171,7 @@ const RegisterScreen = ({ navigation }, props) => {
                             keyboardType="email-address"
                             ref={emailInputRef}
                             returnKeyType="next"
+                            autoCapitalize="none"
                             onSubmitEditing={() =>
                                 passwordInputRef.current &&
                                 passwordInputRef.current.focus()
@@ -178,7 +179,7 @@ const RegisterScreen = ({ navigation }, props) => {
                             blurOnSubmit={false}
                         />
                     </View>
-        
+
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
@@ -186,9 +187,9 @@ const RegisterScreen = ({ navigation }, props) => {
                             underlineColorAndroid="#f000"
                             placeholder="Enter Password"
                             placeholderTextColor="#8b9cb5"
-                            keyboardType="sentences"
                             ref={ageInputRef}
                             returnKeyType="next"
+                            autoCapitalize="none"
                             onSubmitEditing={() =>
                                 addressInputRef.current &&
                                 addressInputRef.current.focus()
@@ -205,9 +206,9 @@ const RegisterScreen = ({ navigation }, props) => {
                             underlineColorAndroid="#f000"
                             placeholder="Enter Address"
                             placeholderTextColor="#8b9cb5"
-                            autoCapitalize="sentences"
                             ref={addressInputRef}
                             returnKeyType="next"
+                            autoCapitalize="none"
                             onSubmitEditing={Keyboard.dismiss}
                             blurOnSubmit={false}
                         />
