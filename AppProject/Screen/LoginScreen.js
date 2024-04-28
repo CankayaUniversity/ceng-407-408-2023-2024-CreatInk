@@ -64,7 +64,17 @@ const LoginScreen = ({ navigation }) => {
                 if (data.message === 'successful') {
                     // Başarılı giriş durumunda anasayfaya yönlendirme
                     navigation.replace('DrawerNavigationRoutes');
-                } else {
+                    alert('Successful login.');
+                    return;
+                }
+
+                else if (data.message === 'email_not_found') {
+                    navigation.navigate('LoginScreen');
+                    alert('Wrong email or password.');
+                    return;
+                }
+
+                else {
                     navigation.navigate('LoginScreen');
                     alert('Wrong email or password.');
                     return;
