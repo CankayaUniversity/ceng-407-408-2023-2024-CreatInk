@@ -33,8 +33,8 @@ const SplashScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../Image/aboutreact.png')}
-                style={{ width: '90%', resizeMode: 'contain', margin: 30 }}
+                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
+                style={{ width: '40%', resizeMode: 'contain', margin: 30 }}
             />
             <ActivityIndicator
                 animating={animating}
@@ -51,9 +51,9 @@ export default SplashScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        backgroundColor: '#778899',
         justifyContent: 'center',
-        backgroundColor: '#cc30a0',
+        paddingBottom: 500,
     },
     activityIndicator: {
         alignItems: 'center',

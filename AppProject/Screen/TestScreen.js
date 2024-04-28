@@ -18,7 +18,7 @@ const TestScreen = ({ navigation }) => {
                 style={styles.imageStyle}
             />
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate('RegisterScreen')}>
@@ -30,7 +30,7 @@ const TestScreen = ({ navigation }) => {
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate('LoginScreen')}>
                 <Text style={styles.buttonTextStyle}>Login</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
                 style={styles.buttonStyle}

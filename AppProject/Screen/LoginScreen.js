@@ -18,6 +18,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 import Loader from './Components/Loader';
+import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setUserEmail] = useState('');
@@ -62,10 +63,9 @@ const LoginScreen = ({ navigation }) => {
                 console.log(data);
                 if (data.message === 'successful') {
                     // Başarılı giriş durumunda anasayfaya yönlendirme
-                    navigation.navigate('DrawingScreen')
+                    navigation.navigate('TestScreen')
                 } else {
-                    console.error('Giriş başarısız');
-                    // Giriş başarısız olduğunda kullanıcıya hata mesajı gösterilebilir veya başka bir işlem yapılabilir
+                    navigation.navigate('LoginScreen')
                 }
             })
             .catch(error => console.error('Hata:', error));
@@ -74,7 +74,7 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#778899' }}>
-            <Loader loading={loading} />
+            {/* <Loader loading={loading} /> */}
             <ScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{
@@ -140,20 +140,13 @@ const LoginScreen = ({ navigation }) => {
                             style={styles.buttonStyle}
                             activeOpacity={0.5}
                             onPress={handleSubmitPress}>
-                            <Text style={styles.buttonTextStyle}>LOGIN</Text>
+                            <Text style={styles.buttonTextStyle}>Login</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonStyle}
                             activeOpacity={0.5}
                             onPress={() => navigation.navigate('RegisterScreen')}>
                             <Text style={styles.buttonTextStyle}>New here? Register</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.buttonStyle}
-                            activeOpacity={0.5}
-                            onPress={() => navigation.navigate('TestScreen')}>
-                            <Text style={styles.buttonTextStyle}>MAIN MENU</Text>
                         </TouchableOpacity>
 
                     </KeyboardAvoidingView>
