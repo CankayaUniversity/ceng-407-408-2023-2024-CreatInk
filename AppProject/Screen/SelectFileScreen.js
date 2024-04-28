@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         width: 400,
         height: 400,
         resizeMode: 'contain',
-        marginBottom: 0,
+        marginBottom: 20,
         marginTop: 450,
         alignSelf: 'center',
     },
