@@ -43,10 +43,7 @@ const RegisterScreen = ({ navigation }, props) => {
             alert('Please fill Password');
             return;
         }
-        if (!userAddress) {
-            alert('Please fill Address');
-            return;
-        }
+        
 
         //Show Loader
         setLoading(true);
