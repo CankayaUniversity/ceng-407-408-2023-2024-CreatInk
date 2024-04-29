@@ -7,12 +7,38 @@ import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {Card, Avatar} from 'react-native-paper';
 import {LocaleConfig} from 'react-native-calendars';
+import { TextInput } from 'react-native-gesture-handler';
 
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split('T')[0];
 };
-
+const CALENDAR_THEME={
+  backgroundColor: '#ffffff',
+  calendarBackground: '#ffffff',
+  textSectionTitleColor: '#b6c1cd',
+  textSectionTitleDisabledColor: '#d9e1e8',
+  selectedDayBackgroundColor: '#00adf5',
+  selectedDayTextColor: '#ffffff',
+  todayTextColor: '#00adf5',
+  dayTextColor: '#2d4150',
+  textDisabledColor: '#d9e1e8',
+  dotColor: '#00adf5',
+  selectedDotColor: '#ffffff',
+  arrowColor: 'orange',
+  disabledArrowColor: '#d9e1e8',
+  monthTextColor: 'blue',
+  indicatorColor: 'blue',
+  textDayFontFamily: 'monospace',
+  textMonthFontFamily: 'monospace',
+  textDayHeaderFontFamily: 'monospace',
+  textDayFontWeight: '300',
+  textMonthFontWeight: 'bold',
+  textDayHeaderFontWeight: '300',
+  textDayFontSize: 16,
+  textMonthFontSize: 16,
+  textDayHeaderFontSize: 16
+};
 
 const CalendarScreen = () => {
 
@@ -42,6 +68,18 @@ const CalendarScreen = () => {
     }, 1000);
   };
 
+  const renderEmptyDay = () => {
+    return <View />;
+  };
+
+  const renderEmptyItem = () => {
+    return (
+        <Text >
+         No slots in the calendar
+        </Text>
+    );
+  };
+
   const renderItem = (item) => {
     return (
       <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
@@ -53,7 +91,7 @@ const CalendarScreen = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Text>{item.name}</Text>
+              <TextInput>{item.name}</TextInput>
               <Avatar.Text label="J" />
             </View>
           </Card.Content>
@@ -65,10 +103,15 @@ const CalendarScreen = () => {
   return (
     <View style={{flex: 1}}>
       <Agenda
+      
         items={items}
         loadItemsForMonth={loadItems}
-        
+        renderEmptyItems={renderEmptyDay}
+        renderEmpty={renderEmptyItem}
         renderItem={renderItem}
+        theme={{
+          ...CALENDAR_THEME,
+         }}
       />
     </View>
   );
