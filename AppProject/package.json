@@ -20,6 +20,7 @@
     "mdb-react-ui-kit": "^7.2.0",
     "react": "18.2.0",
     "react-native": "0.72.0",
+    "react-native-calendars": "^1.1304.1",
     "react-native-gesture-handler": "^2.16.0",
     "react-native-image-picker": "^7.1.2",
     "react-native-paper": "^5.12.3",
