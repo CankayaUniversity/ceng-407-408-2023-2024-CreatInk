@@ -38,6 +38,7 @@ const LoginScreen = ({ navigation }) => {
             alert('Please fill Password');
             return;
         }
+        navigation.replace('DrawerNavigationRoutes');
         setLoading(true);
         let dataToSend = { email: email, password: password };
         let formBody = [];
@@ -64,6 +65,7 @@ const LoginScreen = ({ navigation }) => {
                 if (data.message === 'successful') {
                     // Başarılı giriş durumunda anasayfaya yönlendirme
                     navigation.replace('DrawerNavigationRoutes');
+                    AsyncStorage.setItem('user_id', data.client_id);
                 } else {
                     navigation.navigate('LoginScreen')
                 }
