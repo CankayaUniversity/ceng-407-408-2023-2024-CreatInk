@@ -7,7 +7,7 @@ const { height, width } = Dimensions.get('window');
 export default function DrawingApp() {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
-    const [currentColor, setCurrentColor] = useState('white'); // Başlangıç rengi
+    const [currentColor, setCurrentColor] = useState('black'); // Başlangıç rengi
 
     const onTouchMove = (event) => {
         const locationX = event.nativeEvent.locationX;
