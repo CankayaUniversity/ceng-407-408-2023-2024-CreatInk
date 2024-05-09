@@ -79,14 +79,32 @@ export default function DrawingApp() {
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'green' }]} onPress={() => changeColor('green')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'yellow' }]} onPress={() => changeColor('yellow')} />
             </View>
-            <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-                <Text style={styles.clearButtonText}>Clear All</Text>
+            <TouchableOpacity style={styles.buttonStyle} onPress={handleClearButtonClick}>
+                <Text style={styles.buttonTextStyle}>  Clear All  </Text>
             </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    buttonStyle: {
+        backgroundColor: '#333333',
+        borderWidth: 0,
+        color: '#000000',
+        borderColor: '#000000',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 10,
+        marginBottom: 2,
+    },
+    buttonTextStyle: {
+        color: '#FFFFFF',
+        paddingVertical: 10,
+        fontSize: 16,
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

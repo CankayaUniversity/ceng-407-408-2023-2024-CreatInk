@@ -209,8 +209,8 @@ const RegisterScreen = ({ navigation }, props) => {
                     <TouchableOpacity
                         style={styles.buttonStyle}
                         activeOpacity={0.5}
-                        onPress={() => navigation.navigate('TestScreen')}>
-                        <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                        onPress={() => navigation.navigate('LoginScreen')}>
+                        <Text style={styles.buttonTextStyle}>Already registered? Login</Text>
                     </TouchableOpacity>
 
                 </KeyboardAvoidingView>

@@ -80,7 +80,7 @@ const SelectFileScreen = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('TestScreen')}>
+                onPress={() => navigation.navigate('DrawerNavigationRoutes')}>
                 <Text style={styles.buttonTextStyle}>Main Menu</Text>
             </TouchableOpacity>
         </View>
