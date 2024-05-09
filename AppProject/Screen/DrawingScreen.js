@@ -7,18 +7,27 @@ const { height, width } = Dimensions.get('window');
 export default function DrawingApp() {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
-    const [currentColor, setCurrentColor] = useState('white'); // Başlangıç rengi
+    const [currentColor, setCurrentColor] = useState('black'); // Başlangıç rengi
 
-    const onTouchMove = (event) => {
+    const onTouchStart = (event) => {
         const locationX = event.nativeEvent.locationX;
         const locationY = event.nativeEvent.locationY;
-        const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-        setCurrentPath(currentPath => [...currentPath, newPoint]);
+        const newPoint = `M ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        setCurrentPath([newPoint]);
+    };
+
+    const onTouchMove = (event) => {
+        if (currentPath.length === 0) return;
+
+        const locationX = event.nativeEvent.locationX;
+        const locationY = event.nativeEvent.locationY;
+        const newPoint = `L ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        setCurrentPath(prevPath => [...prevPath, newPoint]);
     };
 
     const onTouchEnd = () => {
         if (currentPath.length > 0) {
-            setPaths(paths => [...paths, { path: currentPath, color: currentColor }]);
+            setPaths(prevPaths => [...prevPaths, { path: currentPath, color: currentColor }]);
             setCurrentPath([]);
         }
     };
@@ -34,7 +43,12 @@ export default function DrawingApp() {
     return (
         <View style={styles.container}>
             <Text style={styles.textHeader}>Drawing Page</Text>
-            <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+            <View
+                style={styles.svgContainer}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
                 <Svg height={height * 0.7} width={width}>
                     {paths.map(({ path, color }, index) => (
                         <Path
@@ -47,6 +61,15 @@ export default function DrawingApp() {
                             strokeLinecap="round"
                         />
                     ))}
+                    <Path
+                        key="currentPath"
+                        d={currentPath.join('')}
+                        stroke={currentColor}
+                        fill="transparent"
+                        strokeWidth={3}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                    />
                 </Svg>
             </View>
             <View style={styles.colorPickerContainer}>
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0', 
+        backgroundColor: '#f0f0f0',
     },
     textHeader: {
         color: 'black',
