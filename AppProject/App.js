@@ -133,6 +133,7 @@ import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import SelectFileScreen from './Screen/SelectFileScreen';
 import DrawingApp from './Screen/DrawingScreen';
 import TestScreen from './Screen/TestScreen';
+import { UserProvider } from './Screen/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -166,6 +167,7 @@ const Auth = () => {
 
 const App = () => {
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
         {/* SplashScreen which will come once for 5 Seconds */}
@@ -208,6 +210,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </UserProvider>
   );
 };
 

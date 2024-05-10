@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef,useContext } from 'react';
 import {
     StyleSheet,
     TextInput,
@@ -14,21 +14,28 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
 } from 'react-native';
+import { UserContext } from './UserContext';
 
-import AsyncStorage from '@react-native-community/async-storage';
+
 
 import Loader from './Components/Loader';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen =  ({ navigation }) => {
     const [email, setUserEmail] = useState('');
     const [password, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
+    const { setUserId } = useContext(UserContext);
 
     const passwordInputRef = createRef();
+    const url = 'http://10.0.2.2:5000/login';
 
-    const handleSubmitPress = () => {
+    const requestBody = {
+        email,
+        password
+      };
+    const handleSubmitPress = async() => {
         setErrortext('');
         if (!email) {
             alert('Please fill Email');
@@ -47,40 +54,34 @@ const LoginScreen = ({ navigation }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-
-        fetch('http://10.0.2.2:5000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
+        try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody),
             })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message === 'successful') {
-                    // Başarılı giriş durumunda anasayfaya yönlendirme
-                    navigation.replace('DrawerNavigationRoutes');
-                    alert('Successful login.');
-                    return;
-                }
-
-                else if (data.message === 'email_not_found') {
-                    navigation.navigate('LoginScreen');
-                    alert('Wrong email or password.');
-                    return;
-                }
-
-                else {
-                    navigation.navigate('LoginScreen');
-                    alert('Wrong email or password.');
-                    return;
-                }
-            })
-            .catch(error => console.error("Error: " + error));
+            if (response.ok) {
+                const data = await response.json();
+                const userId = data.client_id; // Adjust the key according to your API response
+                setUserId(userId.toString());
+                navigation.replace('DrawerNavigationRoutes');
+                alert('Successful login.');
+              } else {
+                
+                alert('Wrong email or password.');
+              }
+            } catch (error) {
+              console.error('Login error:', error);
+              setError('Something went wrong. Please try again.');
+            }
+           
+        
+                
+               
+            
+           
     };
 
     return (
