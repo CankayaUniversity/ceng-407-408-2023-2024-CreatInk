@@ -7,18 +7,27 @@ const { height, width } = Dimensions.get('window');
 export default function DrawingApp() {
     const [paths, setPaths] = useState([]);
     const [currentPath, setCurrentPath] = useState([]);
-    const [currentColor, setCurrentColor] = useState('white'); // Başlangıç rengi
+    const [currentColor, setCurrentColor] = useState('black'); // Başlangıç rengi
 
-    const onTouchMove = (event) => {
+    const onTouchStart = (event) => {
         const locationX = event.nativeEvent.locationX;
         const locationY = event.nativeEvent.locationY;
-        const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-        setCurrentPath(currentPath => [...currentPath, newPoint]);
+        const newPoint = `M ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        setCurrentPath([newPoint]);
+    };
+
+    const onTouchMove = (event) => {
+        if (currentPath.length === 0) return;
+
+        const locationX = event.nativeEvent.locationX;
+        const locationY = event.nativeEvent.locationY;
+        const newPoint = `L ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        setCurrentPath(prevPath => [...prevPath, newPoint]);
     };
 
     const onTouchEnd = () => {
         if (currentPath.length > 0) {
-            setPaths(paths => [...paths, { path: currentPath, color: currentColor }]);
+            setPaths(prevPaths => [...prevPaths, { path: currentPath, color: currentColor }]);
             setCurrentPath([]);
         }
     };
@@ -34,7 +43,12 @@ export default function DrawingApp() {
     return (
         <View style={styles.container}>
             <Text style={styles.textHeader}>Drawing Page</Text>
-            <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+            <View
+                style={styles.svgContainer}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
                 <Svg height={height * 0.7} width={width}>
                     {paths.map(({ path, color }, index) => (
                         <Path
@@ -47,6 +61,15 @@ export default function DrawingApp() {
                             strokeLinecap="round"
                         />
                     ))}
+                    <Path
+                        key="currentPath"
+                        d={currentPath.join('')}
+                        stroke={currentColor}
+                        fill="transparent"
+                        strokeWidth={3}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                    />
                 </Svg>
             </View>
             <View style={styles.colorPickerContainer}>
@@ -56,19 +79,37 @@ export default function DrawingApp() {
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'green' }]} onPress={() => changeColor('green')} />
                 <TouchableOpacity style={[styles.colorButton, { backgroundColor: 'yellow' }]} onPress={() => changeColor('yellow')} />
             </View>
-            <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-                <Text style={styles.clearButtonText}>Clear All</Text>
+            <TouchableOpacity style={styles.buttonStyle} onPress={handleClearButtonClick}>
+                <Text style={styles.buttonTextStyle}>  Clear All  </Text>
             </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    buttonStyle: {
+        backgroundColor: '#333333',
+        borderWidth: 0,
+        color: '#000000',
+        borderColor: '#000000',
+        height: 40,
+        alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 10,
+        marginBottom: 2,
+    },
+    buttonTextStyle: {
+        color: '#FFFFFF',
+        paddingVertical: 10,
+        fontSize: 16,
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0', 
+        backgroundColor: '#f0f0f0',
     },
     textHeader: {
         color: 'black',

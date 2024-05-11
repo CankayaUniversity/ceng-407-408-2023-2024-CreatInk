@@ -133,6 +133,7 @@ import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import SelectFileScreen from './Screen/SelectFileScreen';
 import DrawingApp from './Screen/DrawingScreen';
 import TestScreen from './Screen/TestScreen';
+import { UserProvider } from './Screen/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -148,16 +149,17 @@ const Auth = () => {
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
-        options={{
-          title: 'Register', //Set Header Title
-          headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-        }}
+        options={{ headerShown: false }}
+        // options={{
+        //   title: 'Register', //Set Header Title
+        //   headerStyle: {
+        //     backgroundColor: '#307ecc', //Set Header color
+        //   },
+        //   headerTintColor: '#fff', //Set Header text color
+        //   headerTitleStyle: {
+        //     fontWeight: 'bold', //Set Header text style
+        //   },
+        // }}
       />
     </Stack.Navigator>
   );
@@ -165,6 +167,7 @@ const Auth = () => {
 
 const App = () => {
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
         {/* SplashScreen which will come once for 5 Seconds */}
@@ -199,8 +202,15 @@ const App = () => {
           // Hiding header for Splash Screen
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="TestScreen"
+          component={TestScreen}
+          // Hiding header for Navigation Drawer
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
+    </UserProvider>
   );
 };
 
