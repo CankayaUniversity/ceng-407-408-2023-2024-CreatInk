@@ -4,14 +4,11 @@ import {
     StyleSheet,
     View,
     Text,
-    FlatList,
-    Button,
     Image
 } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { launchCamera } from 'react-native-image-picker';
 
 const SelectFileScreen = ({ navigation }) => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -43,19 +40,7 @@ const SelectFileScreen = ({ navigation }) => {
             maxHeight: 2000,
             maxWidth: 2000,
         };
-
-        launchCamera(options, response => {
-            if (response.didCancel) {
-                console.log('User cancelled camera');
-            } else if (response.error) {
-                console.log('Camera Error: ', response.error);
-            } else {
-                let imageUri = response.uri || response.assets?.[0]?.uri;
-                setSelectedImage(imageUri);
-                console.log(imageUri);
-            }
-        });
-    }
+    };
 
     return (
         <View style={styles.container}>
@@ -65,22 +50,25 @@ const SelectFileScreen = ({ navigation }) => {
                     style={styles.imageStyle}
                 />
             )}
+
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
                 onPress={openImagePicker}>
                 <Text style={styles.buttonTextStyle}>Select File</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
                 onPress={handleCameraLaunch}>
                 <Text style={styles.buttonTextStyle}>Take Photo</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('TestScreen')}>
+                onPress={() => navigation.navigate('DrawerNavigationRoutes')}>
                 <Text style={styles.buttonTextStyle}>Main Menu</Text>
             </TouchableOpacity>
         </View>

@@ -2,10 +2,13 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
+import { UserContext } from '../UserContext';
 
 const PersonalInfo = () => {
+
+    const { userId } = useContext(UserContext);
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1, padding: 16 }}>
@@ -15,6 +18,8 @@ const PersonalInfo = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
+
+<Text >User ID: {userId}</Text>
                     <Text
                         style={{
                             fontSize: 20,
