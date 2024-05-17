@@ -13,11 +13,16 @@ import TestScreen from './TestScreen';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
+import PersonalInfo from './DrawerScreens/PersonalInfo';
+import Customers from './DrawerScreens/Customers';
+import Collections from './DrawerScreens/Collections';
+import Calendar from './DrawerScreens/Calendar';
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const homeScreenStack = ({navigation}) => {
+const HomeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="TestScreen">
       <Stack.Screen
@@ -29,7 +34,7 @@ const homeScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#307ecc', //Set Header color
+            backgroundColor: '#333333', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -41,7 +46,7 @@ const homeScreenStack = ({navigation}) => {
   );
 };
 
-const settingScreenStack = ({navigation}) => {
+const SettingScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="SettingsScreen"
@@ -50,7 +55,7 @@ const settingScreenStack = ({navigation}) => {
           <NavigationDrawerHeader navigationProps={navigation} />
         ),
         headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
+          backgroundColor: '#333333', //Set Header color
         },
         headerTintColor: '#fff', //Set Header text color
         headerTitleStyle: {
@@ -62,6 +67,110 @@ const settingScreenStack = ({navigation}) => {
         component={SettingsScreen}
         options={{
           title: 'Settings', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const PersonalInfoStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="PersonalInfo"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#333333', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="PersonalInfo"
+        component={PersonalInfo}
+        options={{
+          title: 'Personal Info', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const Collectionsstack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Collections"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#333333', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="Collections"
+        component={Collections}
+        options={{
+          title: 'Collections', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const CustomersStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Customers"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#333333', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="Customers"
+        component={Customers}
+        options={{
+          title: 'Customers', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const CalendarStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Calendar"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#333333', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="Calendar"
+        component={Calendar}
+        options={{
+          title: 'Calendar', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -84,12 +193,32 @@ const DrawerNavigatorRoutes = (props) => {
       <Drawer.Screen
         name="homeScreenStack"
         options={{drawerLabel: 'Home Screen'}}
-        component={homeScreenStack}
+        component={HomeScreenStack}
+      />
+      <Drawer.Screen
+        name="personalInfoStack"
+        options={{drawerLabel: 'Personal Info'}}
+        component={PersonalInfoStack}
+      />
+      <Drawer.Screen
+        name="collectionsStack"
+        options={{drawerLabel: 'Collections'}}
+        component={Collectionsstack}
+      />
+      <Drawer.Screen
+        name="customersStack"
+        options={{drawerLabel: 'Customers'}}
+        component={CustomersStack}
+      />
+      <Drawer.Screen
+        name="calendarStack"
+        options={{drawerLabel: 'Calendar'}}
+        component={CalendarStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
-        component={settingScreenStack}
+        options={{drawerLabel: 'Settings'}}
+        component={SettingScreenStack}
       />
     </Drawer.Navigator>
   );
