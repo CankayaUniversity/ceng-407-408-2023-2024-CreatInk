@@ -70,14 +70,9 @@ def login_client():
 
     if not email or not password:
         return jsonify({"message": "Invalid request, email and password are required"}), 400
-    
+
     # Veritabanında e-posta adresine sahip kullanıcı aranır
     client = Clients.query.filter_by(email=email).first()
-
-    if not client:
-        return jsonify({"message": "email_not_found"}), 401
-
-    
 
     #if client is not None:
     if client.password == password:
