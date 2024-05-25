@@ -16,7 +16,7 @@ import Loader from './Components/Loader';
 const RegisterScreen = ({ navigation }, props) => {
     const [name, setUserName] = useState('');
     const [email, setUserEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setUserAge] = useState('');
     const [userAddress, setUserAddress] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
@@ -26,6 +26,7 @@ const RegisterScreen = ({ navigation }, props) => {
     ] = useState(false);
 
     const emailInputRef = createRef();
+    const ageInputRef = createRef();
     const addressInputRef = createRef();
     const passwordInputRef = createRef();
 
@@ -43,7 +44,10 @@ const RegisterScreen = ({ navigation }, props) => {
             alert('Please fill Password');
             return;
         }
-        
+        if (!userAddress) {
+            alert('Please fill Address');
+            return;
+        }
 
         //Show Loader
         setLoading(true);
@@ -179,19 +183,34 @@ const RegisterScreen = ({ navigation }, props) => {
                     <View style={styles.SectionStyle}>
                         <TextInput
                             style={styles.inputStyle}
-                            onChangeText={(password) => setPassword(password)}
+                            onChangeText={(UserAge) => setUserAge(UserAge)}
                             underlineColorAndroid="#f000"
                             placeholder="Enter Password"
                             placeholderTextColor="#8b9cb5"
-                            ref={passwordInputRef}
-                            autoCapitalize="none"
-                            blurOnSubmit={false}
-                            secureTextEntry={true}
+                            ref={ageInputRef}
                             returnKeyType="next"
+                            autoCapitalize="none"
                             onSubmitEditing={() =>
                                 addressInputRef.current &&
                                 addressInputRef.current.focus()
                             }
+                            blurOnSubmit={false}
+                        />
+                    </View>
+                    <View style={styles.SectionStyle}>
+                        <TextInput
+                            style={styles.inputStyle}
+                            onChangeText={(UserAddress) =>
+                                setUserAddress(UserAddress)
+                            }
+                            underlineColorAndroid="#f000"
+                            placeholder="Enter Address"
+                            placeholderTextColor="#8b9cb5"
+                            ref={addressInputRef}
+                            returnKeyType="next"
+                            autoCapitalize="none"
+                            onSubmitEditing={Keyboard.dismiss}
+                            blurOnSubmit={false}
                         />
                     </View>
                     {errortext != '' ? (
@@ -203,14 +222,14 @@ const RegisterScreen = ({ navigation }, props) => {
                         style={styles.buttonStyle}
                         activeOpacity={0.5}
                         onPress={handleSubmitButton}>
-                        <Text style={styles.buttonTextStyle}>Register</Text>
+                        <Text style={styles.buttonTextStyle}>REGISTER</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.buttonStyle}
                         activeOpacity={0.5}
                         onPress={() => navigation.navigate('TestScreen')}>
-                        <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                        <Text style={styles.buttonTextStyle}>MAIN MENU</Text>
                     </TouchableOpacity>
 
                 </KeyboardAvoidingView>

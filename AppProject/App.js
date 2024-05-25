@@ -133,6 +133,7 @@ import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import SelectFileScreen from './Screen/SelectFileScreen';
 import DrawingApp from './Screen/DrawingScreen';
 import TestScreen from './Screen/TestScreen';
+import DisplayImage from './Screen/DisplayImage';
 
 const Stack = createStackNavigator();
 
@@ -196,6 +197,12 @@ const App = () => {
         <Stack.Screen
           name="SelectFileScreen"
           component={SelectFileScreen}
+          // Hiding header for Splash Screen
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DisplayImage"
+          component={DisplayImage}
           // Hiding header for Splash Screen
           options={{ headerShown: false }}
         />

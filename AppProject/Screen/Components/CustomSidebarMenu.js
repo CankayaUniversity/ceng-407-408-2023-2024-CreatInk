@@ -18,12 +18,12 @@ const CustomSidebarMenu = (props) => {
         <View style={stylesSidebar.sideMenuContainer}>
             <View style={stylesSidebar.profileHeader}>
                 <View style={stylesSidebar.profileHeaderPicCircle}>
-                    <Text style={{ fontSize: 25, color: '#333333' }}>
-                        {'Personal Menu'.charAt(0)}
+                    <Text style={{ fontSize: 25, color: '#307ecc' }}>
+                        {'About React'.charAt(0)}
                     </Text>
                 </View>
                 <Text style={stylesSidebar.profileHeaderText}>
-                    Personal Menu
+                    AboutReact
                 </Text>
             </View>
             <View style={stylesSidebar.profileHeaderLine} />
@@ -32,7 +32,7 @@ const CustomSidebarMenu = (props) => {
                 <DrawerItemList {...props} />
                 <DrawerItem
                     label={({ color }) =>
-                        <Text style={{ color: '#333333' }}>
+                        <Text style={{ color: '#d8d8d8' }}>
                             Logout
                         </Text>
                     }
@@ -71,13 +71,13 @@ const stylesSidebar = StyleSheet.create({
     sideMenuContainer: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#d8d8d8',
+        backgroundColor: '#307ecc',
         paddingTop: 40,
         color: 'white',
     },
     profileHeader: {
         flexDirection: 'row',
-        backgroundColor: '#333333',
+        backgroundColor: '#307ecc',
         padding: 15,
         textAlign: 'center',
     },
@@ -85,7 +85,7 @@ const stylesSidebar = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 60 / 2,
-        color: '#d8d8d8',
+        color: 'white',
         backgroundColor: '#ffffff',
         textAlign: 'center',
         justifyContent: 'center',

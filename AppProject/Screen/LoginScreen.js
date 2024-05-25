@@ -68,11 +68,10 @@ const LoginScreen = ({ navigation }) => {
                     AsyncStorage.setItem('user_id', data.client_id);
                 } else {
                     navigation.navigate('LoginScreen')
-                    alert('Successful login.');
-                    return;
                 }
             })
-            .catch(error => console.error("Error: " + error));
+            .catch(error => console.error('Hata:', error));
+
     };
 
     return (

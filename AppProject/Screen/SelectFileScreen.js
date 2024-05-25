@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import RNPhotoManipulator from 'react-native-photo-manipulator';
 
 import {
     StyleSheet,
@@ -35,7 +36,7 @@ const SelectFileScreen = ({ navigation }) => {
             }
         });
     };
-
+    
     const handleCameraLaunch = () => {
         const options = {
             mediaType: 'photo',
@@ -70,6 +71,18 @@ const SelectFileScreen = ({ navigation }) => {
                 activeOpacity={0.5}
                 onPress={openImagePicker}>
                 <Text style={styles.buttonTextStyle}>Select File</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate("DisplayImage", {selectedImage})}>
+                <Text style={styles.buttonTextStyle}>Edit Image</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate("DrawingScreen", {selectedImage})}>
+                <Text style={styles.buttonTextStyle}>Draw Image</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonStyle}
