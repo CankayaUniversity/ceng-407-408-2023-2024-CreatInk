@@ -41,8 +41,8 @@ const SelectFileScreen = ({ navigation }) => {
         const options = {
             mediaType: 'photo',
             includeBase64: false,
-            maxHeight: 2000,
-            maxWidth: 2000,
+            maxHeight: 20000,
+            maxWidth: 20000,
         };
 
         launchCamera(options, response => {

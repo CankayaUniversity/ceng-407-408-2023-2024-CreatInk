@@ -134,6 +134,7 @@ import SelectFileScreen from './Screen/SelectFileScreen';
 import DrawingApp from './Screen/DrawingScreen';
 import TestScreen from './Screen/TestScreen';
 import DisplayImage from './Screen/DisplayImage';
+import ImageToTextScreen from './Screen/TextScreen';
 
 const Stack = createStackNavigator();
 
@@ -200,12 +201,19 @@ const App = () => {
           // Hiding header for Splash Screen
           options={{ headerShown: false }}
         />
+         <Stack.Screen
+          name="ImageToTextScreen"
+          component={ImageToTextScreen}
+          // Hiding header for Splash Screen
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="DisplayImage"
           component={DisplayImage}
           // Hiding header for Splash Screen
           options={{ headerShown: false }}
         />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

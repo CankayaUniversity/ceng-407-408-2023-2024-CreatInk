@@ -1,24 +1,93 @@
-import React, { useState,useEffect } from 'react';
-import { View, StyleSheet, Dimensions, TouchableOpacity, Text, ImageBackground } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+  TouchableOpacity,
+  PanResponder,
+  Animated
+} from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 
-const { height, width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function DrawingScreen({ route }) {
-    const [selectedImage, setSelectedImage] = useState(null);
-    useEffect(() => {
-        setSelectedImage(route.params.selectedImage);
-    }, [route.params.selectedImage]);
+  const [selectedImage, setSelectedImage] = useState(route.params.selectedImage);
+  const [inputText, setInputText] = useState('');
   const [paths, setPaths] = useState([]);
   const [currentPath, setCurrentPath] = useState([]);
-  const [currentColor, setCurrentColor] = useState('black');
+  const [currentColor, setCurrentColor] = useState('transparent');
   const [strokeWidth, setStrokeWidth] = useState(3);
+  const [isTextTouched, setIsTextTouched] = useState(false);
+
+  const pan = useRef(new Animated.ValueXY()).current;
+  const scale = useRef(new Animated.Value(1)).current;
+
+  // Metin alanına dokunulduğunda
+  const handleTextTouch = () => {
+    setIsTextTouched(true);
+  };
+
+  // Metin alanından çıkıldığında
+  const handleTextRelease = () => {
+    setIsTextTouched(false);
+  };
+  const handleTextDrag = () => {
+    setIsTextTouched(true);
+    setTimeout(() => {
+      setIsTextTouched(false);
+    }, 5000); // Örnek olarak 500 milisaniye sonra isTextTouched değerini false yap
+  };
+  
+
+  // Pan responder oluştur
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // Eğer text'e dokunuluyorsa çizim yapmamasını sağla
+        if (isTextTouched) {
+          return false;
+        }
+        return true;
+      },
+      onPanResponderGrant: (evt, gestureState) => {
+        if (isTextTouched) {
+          return;
+        }
+        pan.setOffset({
+          x: pan.x._value,
+          y: pan.y._value,
+        });
+      },
+      onPanResponderMove: Animated.event(
+        [null, { dx: pan.x, dy: pan.y }],
+        { useNativeDriver: false }
+      ),
+      onPanResponderRelease: () => {
+        if (isTextTouched) {
+          return;
+        }
+        pan.flattenOffset();
+      },
+    })
+  ).current;
+
+  useEffect(() => {
+    setSelectedImage(route.params.selectedImage);
+    pan.setValue({ x: 100, y: 100 });  // Initial position
+  }, [route.params.selectedImage]);
 
   const onTouchMove = (event) => {
+    if (!isTextTouched) {
     const locationX = event.nativeEvent.locationX;
     const locationY = event.nativeEvent.locationY;
     const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
     setCurrentPath(currentPath => [...currentPath, newPoint]);
+    }
   };
 
   const onTouchEnd = () => {
@@ -46,9 +115,17 @@ export default function DrawingScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>Drawing App</Text>
-      <View style={styles.svgContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
-        <ImageBackground source={{ uri: selectedImage }} style={{ width: '100%', height: '100%' }}>
+      <TextInput
+        style={styles.textInput}
+        placeholder="Type here..."
+        value={inputText}
+        onChangeText={setInputText}
+        onTouchStart={handleTextTouch}
+        onTouchEnd={handleTextRelease}
+        onPanResponderMove={handleTextDrag} 
+      />
+      <View style={styles.imageContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+        <ImageBackground source={{ uri: selectedImage }} style={styles.image}>
           <Svg height={height * 0.7} width={width}>
             {paths.map(({ path, color, strokeWidth }, index) => (
               <Path
@@ -62,6 +139,15 @@ export default function DrawingScreen({ route }) {
               />
             ))}
           </Svg>
+          <Animated.View
+            style={{
+              transform: [{ translateX: pan.x }, { translateY: pan.y }, { scale: scale }],
+              ...styles.textView
+            }}
+            {...panResponder.panHandlers}
+          >
+            <Text style={styles.text}>{inputText}</Text>
+          </Animated.View>
         </ImageBackground>
       </View>
       <View style={styles.colorPickerContainer}>
@@ -103,25 +189,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
   },
-  textHeader: {
-    color: 'black',
-    fontSize: 24,
-    margin: 10,
-    fontWeight: 'bold',
+  textInput: {
+    height: 40,
+    width: '80%',
+    borderWidth: 1,
+    borderColor: 'gray',
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 20,
   },
-  svgContainer: {
-    height: height * 0.7,
+  imageContainer: {
     width: width,
-    backgroundColor: 'white',
+    height: height * 0.7,
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'black',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  textView: {
+    position: 'absolute',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    padding: 10,
+  },
+  text: {
+    fontSize: 20,
+    color: 'black',
   },
   colorPickerContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
   },
-  colorButton: {
+  colorButton:{
     width: 40,
     height: 40,
     marginHorizontal: 5,
@@ -169,4 +271,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-});
+  });
+  

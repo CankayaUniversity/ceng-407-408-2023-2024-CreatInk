@@ -37,49 +37,59 @@ client_schema = ClientSchema()
 clients_schema = ClientSchema(many=True)
 
 def process_image(image):
-    # Example processing: convert to grayscale
-     # Resmi gri tona dönüştür
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    #invert the gray img
-    inverted_gray_imgage = 255 - gray_image
-
-    #blur the image
-    blur_inverted_gray_image = cv2.GaussianBlur(inverted_gray_imgage, (111,111), 0)
-
-    #invert the blurred img back
+    inverted_gray_image = 255 - gray_image
+    blur_inverted_gray_image = cv2.GaussianBlur(inverted_gray_image, (111, 111), 0)
     inverted_blur = 255 - blur_inverted_gray_image
-
-    #sketch 
     final_photo = cv2.divide(gray_image, inverted_blur, scale=256)
-
     return final_photo
+
+def sharpen_image(image):
+    lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+    lab[:, :, 0] = clahe.apply(lab[:, :, 0])
+    image_clahe = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+    blurred = cv2.GaussianBlur(image_clahe, (9, 9), 10.0)
+    image_unsharp = cv2.addWeighted(image_clahe, 1.5, blurred, -0.5, 0)
+    return image_unsharp
 
 @app.route("/processImage", methods=['POST'])
 def process_image_endpoint():
     if 'image' not in request.files:
-        return "No image part", 400
+        return jsonify({"error": "No image part"}), 400
 
     file = request.files['image']
     if file.filename == '':
-        return "No selected file", 400
+        return jsonify({"error": "No selected file"}), 400
 
-    if file:
-        print("Received image for processing")
-        # Convert image file to OpenCV format
+    try:
         np_img = np.frombuffer(file.read(), np.uint8)
         image = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
-
-        # Process the image
         result_image = process_image(image)
-
-        # Encode the processed image to a byte buffer
         _, buffer = cv2.imencode(".jpg", result_image)
-        byte_io = io.BytesIO(buffer)
-
-        # Return the processed image as base64
-        encoded_image = base64.b64encode(byte_io.getvalue()).decode('utf-8')
+        encoded_image = base64.b64encode(buffer).decode('utf-8')
         return jsonify({"image": encoded_image})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/sharpenImage", methods=['POST'])
+def sharpen_image_endpoint():
+    if 'image' not in request.files:
+        return jsonify({"error": "No image part"}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        np_img = np.frombuffer(file.read(), np.uint8)
+        image = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+        result_image = sharpen_image(image)
+        _, buffer = cv2.imencode('.jpg', result_image)
+        encoded_image = base64.b64encode(buffer).decode('utf-8')
+        return jsonify({"image": encoded_image})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/getAllClients", methods=['GET'])
 def get_clients():

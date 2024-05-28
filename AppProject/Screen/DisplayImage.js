@@ -15,10 +15,12 @@ const DisplayImage = ({ navigation, route }) => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
-        setSelectedImage(route.params.selectedImage);
-    }, [route.params.selectedImage]);
+        if (route.params && route.params.selectedImage) {
+            setSelectedImage(route.params.selectedImage);
+        }
+    }, [route.params]);
 
-    const imageText = async () => {
+    const handleImageProcessing = async (url) => {
         const formData = new FormData();
         formData.append('image', {
             uri: selectedImage,
@@ -27,19 +29,36 @@ const DisplayImage = ({ navigation, route }) => {
         });
 
         try {
-            console.log("Sending image to server...");
-            const response = await axios.post('http://10.0.2.2:5000/processImage', formData, {
+            console.log("Sending image to server at URL:", url);
+            const response = await axios.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            const base64Image = `data:image/jpeg;base64,${response.data.image}`;
-            setSelectedImage(base64Image);
-            // Assuming the processed image URL is in response.data.image
+            if (response.data.image) {
+                const base64Image = `data:image/jpeg;base64,${response.data.image}`;
+                setSelectedImage(base64Image);
+            } else {
+                console.error('Invalid response data:', response.data);
+            }
         } catch (error) {
             console.error('Error uploading image:', error);
+            if (error.response) {
+                // Server responded with a status other than 2xx
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+            } else if (error.request) {
+                // Request was made but no response was received
+                console.error('Request data:', error.request);
+            } else {
+                // Something else happened
+                console.error('Error message:', error.message);
+            }
         }
     };
+
+    const imageText = () => handleImageProcessing('http://10.0.2.2:5000/processImage');
+    const sharpenImage = () => handleImageProcessing('http://10.0.2.2:5000/sharpenImage');
 
     const makeVertical = () => {
         const cropRegion = { x: 10, y: 40, height: 400, width: 250 };
@@ -54,6 +73,17 @@ const DisplayImage = ({ navigation, route }) => {
                 console.error('Error cropping image:', error);
             });
     };
+    const func1= () => {
+        const texts = [
+            { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#000000" },
+            { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#FFFFFF", thickness: 3 }
+        ];
+    
+      RNPhotoManipulator.printText(selectedImage, texts).then(path => {
+        console.log(`Result image path: ${path}`);
+        setSelectedImage(path);
+      });
+      };
 
     return (
         <View style={styles.container}>
@@ -72,8 +102,20 @@ const DisplayImage = ({ navigation, route }) => {
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
+                onPress={sharpenImage}>
+                <Text style={styles.buttonTextStyle}>Sharpen Model</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
                 onPress={makeVertical}>
                 <Text style={styles.buttonTextStyle}>Crop</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate("ImageToTextScreen", {selectedImage})}>
+                <Text style={styles.buttonText}>Image to text</Text>
             </TouchableOpacity>
         </View>
     );
