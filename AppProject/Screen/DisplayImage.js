@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import RNPhotoManipulator from 'react-native-photo-manipulator';
 import axios from 'axios';
-
 import {
     StyleSheet,
     View,
     Text,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
-
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const DisplayImage = ({ navigation, route }) => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -21,6 +19,8 @@ const DisplayImage = ({ navigation, route }) => {
     }, [route.params]);
 
     const handleImageProcessing = async (url) => {
+        if (!selectedImage) return;
+
         const formData = new FormData();
         formData.append('image', {
             uri: selectedImage,
@@ -60,30 +60,37 @@ const DisplayImage = ({ navigation, route }) => {
     const imageText = () => handleImageProcessing('http://10.0.2.2:5000/processImage');
     const sharpenImage = () => handleImageProcessing('http://10.0.2.2:5000/sharpenImage');
 
-    const makeVertical = () => {
+    const cropImage = async () => {
+        if (!selectedImage) return;
+
         const cropRegion = { x: 10, y: 40, height: 400, width: 250 };
         const targetSize = { height: 200, width: 150 };
 
-        RNPhotoManipulator.crop(selectedImage, cropRegion, targetSize)
-            .then(path => {
-                console.log(`Result image path: ${path}`);
-                setSelectedImage(path);
-            })
-            .catch(error => {
-                console.error('Error cropping image:', error);
-            });
+        try {
+            const path = await RNPhotoManipulator.crop(selectedImage, cropRegion, targetSize);
+            console.log(`Result image path: ${path}`);
+            setSelectedImage(path);
+        } catch (error) {
+            console.error('Error cropping image:', error);
+        }
     };
-    const func1= () => {
+
+    const func1 = async () => {
+        if (!selectedImage) return;
+
         const texts = [
             { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#000000" },
             { position: { x: 50, y: 30 }, text: "Text 1", textSize: 30, color: "#FFFFFF", thickness: 3 }
         ];
-    
-      RNPhotoManipulator.printText(selectedImage, texts).then(path => {
-        console.log(`Result image path: ${path}`);
-        setSelectedImage(path);
-      });
-      };
+
+        try {
+            const path = await RNPhotoManipulator.printText(selectedImage, texts);
+            console.log(`Result image path: ${path}`);
+            setSelectedImage(path);
+        } catch (error) {
+            console.error('Error adding text to image:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -108,14 +115,14 @@ const DisplayImage = ({ navigation, route }) => {
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={makeVertical}>
+                onPress={cropImage}>
                 <Text style={styles.buttonTextStyle}>Crop</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate("ImageToTextScreen", {selectedImage})}>
-                <Text style={styles.buttonText}>Image to text</Text>
+                onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
+                <Text style={styles.buttonTextStyle}>Image to text</Text>
             </TouchableOpacity>
         </View>
     );
