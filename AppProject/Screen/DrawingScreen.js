@@ -8,7 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   PanResponder,
-  Animated
+  Animated,
 } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 
@@ -22,33 +22,28 @@ export default function DrawingScreen({ route }) {
   const [currentColor, setCurrentColor] = useState('transparent');
   const [strokeWidth, setStrokeWidth] = useState(3);
   const [isTextTouched, setIsTextTouched] = useState(false);
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [strokeMenuVisible, setStrokeMenuVisible] = useState(false);
+
 
   const pan = useRef(new Animated.ValueXY()).current;
   const scale = useRef(new Animated.Value(1)).current;
 
-  // Metin alanına dokunulduğunda
   const handleTextTouch = () => {
     setIsTextTouched(true);
   };
 
-  // Metin alanından çıkıldığında
   const handleTextRelease = () => {
     setIsTextTouched(false);
   };
-  const handleTextDrag = () => {
-    setIsTextTouched(true);
-    setTimeout(() => {
-      setIsTextTouched(false);
-    }, 5000); // Örnek olarak 500 milisaniye sonra isTextTouched değerini false yap
+  const toggleStrokeMenu = () => {
+    setStrokeMenuVisible(!strokeMenuVisible);
   };
   
-
-  // Pan responder oluştur
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        // Eğer text'e dokunuluyorsa çizim yapmamasını sağla
         if (isTextTouched) {
           return false;
         }
@@ -78,15 +73,15 @@ export default function DrawingScreen({ route }) {
 
   useEffect(() => {
     setSelectedImage(route.params.selectedImage);
-    pan.setValue({ x: 100, y: 100 });  // Initial position
+    pan.setValue({ x: 100, y: 100 });
   }, [route.params.selectedImage]);
 
   const onTouchMove = (event) => {
     if (!isTextTouched) {
-    const locationX = event.nativeEvent.locationX;
-    const locationY = event.nativeEvent.locationY;
-    const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-    setCurrentPath(currentPath => [...currentPath, newPoint]);
+      const locationX = event.nativeEvent.locationX;
+      const locationY = event.nativeEvent.locationY;
+      const newPoint = `${currentPath.length === 0 ? 'M' : 'L'} ${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+      setCurrentPath(currentPath => [...currentPath, newPoint]);
     }
   };
 
@@ -107,6 +102,7 @@ export default function DrawingScreen({ route }) {
 
   const changeColor = (color) => {
     setCurrentColor(color);
+    setColorPickerVisible(false);
   };
 
   const changeStrokeWidth = (width) => {
@@ -122,9 +118,12 @@ export default function DrawingScreen({ route }) {
         onChangeText={setInputText}
         onTouchStart={handleTextTouch}
         onTouchEnd={handleTextRelease}
-        onPanResponderMove={handleTextDrag} 
       />
-      <View style={styles.imageContainer} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+      <View
+        style={styles.imageContainer}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <ImageBackground source={{ uri: selectedImage }} style={styles.image}>
           <Svg height={height * 0.7} width={width}>
             {paths.map(({ path, color, strokeWidth }, index) => (
@@ -150,26 +149,59 @@ export default function DrawingScreen({ route }) {
           </Animated.View>
         </ImageBackground>
       </View>
-      <View style={styles.colorPickerContainer}>
-        {['black', 'red', 'blue', 'green', 'yellow', 'purple', 'orange'].map(color => (
-          <TouchableOpacity
-            key={color}
-            style={[styles.colorButton, { backgroundColor: color }]}
-            onPress={() => changeColor(color)}
-          />
-        ))}
-      </View>
+      <TouchableOpacity
+        style={styles.colorPickerButton}
+        onPress={() => setColorPickerVisible(!colorPickerVisible)}
+      >
+        <Text style={styles.buttonText}>Pick Color</Text>
+      </TouchableOpacity>
+      {colorPickerVisible && (
+        <View style={styles.colorPickerContainer}>
+            {['black', 'red', 'blue', 'green', 'yellow', 'purple', 'orange'].map(color => (
+                <TouchableOpacity
+                    key={color}
+                    style={[styles.colorButton, { backgroundColor: color }]}
+                    onPress={() => {
+                        changeColor(color);
+                        setColorPickerVisible(false);
+                    }}
+                />
+            ))}
+        </View>
+      )}
       <View style={styles.strokeWidthContainer}>
-        {[1, 3, 5, 7, 10].map(width => (
-          <TouchableOpacity
-            key={width}
-            style={[styles.strokeButton, { borderWidth: width === strokeWidth ? 2 : 1 }]}
-            onPress={() => changeStrokeWidth(width)}
-          >
-            <Text style={styles.strokeButtonText}>{width}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <TouchableOpacity
+  style={[
+    styles.strokeButton,
+    { borderWidth: 1, width: 60, height: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
+  ]}
+  onPress={toggleStrokeMenu}
+>
+  <Text style={styles.strokeButtonText}>Needles</Text>
+</TouchableOpacity>
+
+  {strokeMenuVisible && (
+    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+      {[1, 3, 5, 7, 10].map((width, index) => (
+        <TouchableOpacity
+          key={index}
+          style={[
+            styles.strokeButton,
+            { borderWidth: width === strokeWidth ? 2 : 1, width: 40, height: 40, borderRadius: 20, marginHorizontal: 5 },
+          ]}
+          onPress={() => {
+            changeStrokeWidth(width);
+            setStrokeMenuVisible(false);
+          }}
+        >
+          <Text style={styles.strokeButtonText}>{width}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  )}
+</View>
+
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
           <Text style={styles.buttonText}>Clear All</Text>
@@ -218,16 +250,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'black',
   },
-  colorPickerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  colorPickerButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
     marginTop: 10,
   },
-  colorButton:{
-    width: 40,
-    height: 40,
+  colorPickerContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  colorButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     marginHorizontal: 5,
-    borderRadius: 20,
   },
   strokeWidthContainer: {
     flexDirection: 'row',
@@ -271,5 +309,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  });
-  
+});
+
