@@ -7,41 +7,42 @@ import {
     ActivityIndicator,
     View,
     StyleSheet,
-    Image
+    Image,
+    ImageBackground
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
 const SplashScreen = ({ navigation }) => {
-    //State for ActivityIndicator animation
     const [animating, setAnimating] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
             setAnimating(false);
-            //Check if user_id is set or not
-            //If not then send for Authentication
-            //else send to Home Screen
             AsyncStorage.getItem('user_id').then((value) =>
                 navigation.replace(
                     value === null ? 'Auth' : 'DrawerNavigationRoutes'
                 ),
             );
-        }, 5000);
+        }, 2000);
     }, []);
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
-                style={{ width: '40%', resizeMode: 'contain', margin: 30 }}
-            />
-            <ActivityIndicator
-                animating={animating}
-                color="#FFFFFF"
-                size="large"
-                style={styles.activityIndicator}
-            />
+            <ImageBackground source={require('../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                <Image
+                    source={require('../Image/logo-no-background.png')}
+                    style={{ width: '40%', resizeMode: 'contain', margin: 30, alignItems: 'center', alignSelf: 'center' }}
+                />
+                <ActivityIndicator
+                    animating={animating}
+                    color="#FFFFFF"
+                    size="large"
+                    style={styles.activityIndicator}
+                />
+            </ImageBackground>
         </View>
     );
 };
@@ -53,7 +54,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#778899',
         justifyContent: 'center',
-        paddingBottom: 500,
+        //paddingBottom: 500,
+    },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
     },
     activityIndicator: {
         alignItems: 'center',

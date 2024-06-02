@@ -6,7 +6,8 @@ import {
     View,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ImageBackground,
 } from 'react-native';
 
 const DisplayImage = ({ navigation, route }) => {
@@ -24,7 +25,7 @@ const DisplayImage = ({ navigation, route }) => {
         const formData = new FormData();
         formData.append('image', {
             uri: selectedImage,
-            type: 'image/jpeg', // Adjust according to the image type
+            type: 'image/jpeg',
             name: 'photo.jpg'
         });
 
@@ -94,36 +95,46 @@ const DisplayImage = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            {selectedImage && (
-                <Image
-                    source={{ uri: selectedImage }}
-                    style={styles.imageStyle}
-                />
-            )}
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={imageText}>
-                <Text style={styles.buttonTextStyle}>Get Model</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={sharpenImage}>
-                <Text style={styles.buttonTextStyle}>Sharpen Model</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={cropImage}>
-                <Text style={styles.buttonTextStyle}>Crop</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
-                <Text style={styles.buttonTextStyle}>Image to text</Text>
-            </TouchableOpacity>
+            <ImageBackground source={require('../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                {selectedImage && (
+                    <Image
+                        source={{ uri: selectedImage }}
+                        style={styles.imageStyle}
+                    />
+                )}
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={imageText}>
+                    <Text style={styles.buttonTextStyle}>Get Model</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={sharpenImage}>
+                    <Text style={styles.buttonTextStyle}>Sharpen Model</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={cropImage}>
+                    <Text style={styles.buttonTextStyle}>Crop</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
+                    <Text style={styles.buttonTextStyle}>Image to text</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('TestScreen')}>
+                    <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                </TouchableOpacity>
+            </ImageBackground>
         </View>
     );
 };
@@ -131,27 +142,81 @@ const DisplayImage = ({ navigation, route }) => {
 export default DisplayImage;
 
 const styles = StyleSheet.create({
+    mainBody: {
+        flex: 1,
+        //justifyContent: 'center',
+        backgroundColor: '#cc30a0',
+        //alignContent: 'center',
+    },
     container: {
         flex: 1,
         backgroundColor: '#778899',
+        //justifyContent: 'center',
+        //paddingBottom: 500,
+    },
+    SectionStyle: {
+        flexDirection: 'row',
+        height: 40,
+        marginTop: 5,
+        marginLeft: 35,
+        marginRight: 35,
+        margin: 5,
+    },
+    image: {
+        flex: 1,
         justifyContent: 'center',
+    },
+    buttonStyle: {
+        backgroundColor: '#333333',
+        borderWidth: 0,
+        color: '#000000',
+        borderColor: 'black',
+        borderWidth: 3,
+        //height: 40,
         alignItems: 'center',
+        borderRadius: 30,
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: 2,
+        marginBottom: 2,
+    },
+    buttonTextStyle: {
+        color: '#FFFFFF',
+        paddingVertical: 10,
+        fontSize: 16,
+    },
+    inputStyle: {
+        flex: 1,
+        color: 'black',
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderWidth: 1,
+        borderRadius: 30,
+        borderColor: '#dadae8',
+    },
+    registerTextStyle: {
+        color: 'white',
+        backgroundColor: '#333333',
+        fontWeight: 'bold',
+        fontSize: 30,
+        alignSelf: 'flex-start',
+        padding: 10,
+        marginTop: 10,
+        marginBottom: 20,
+        alignSelf: 'center',
+    },
+    errorTextStyle: {
+        color: 'red',
+        textAlign: 'center',
+        fontSize: 14,
     },
     imageStyle: {
         width: 400,
         height: 400,
         resizeMode: 'contain',
         marginBottom: 20,
-    },
-    buttonStyle: {
-        backgroundColor: '#1E90FF',
-        padding: 10,
-        margin: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    buttonTextStyle: {
-        color: '#FFFFFF',
-        fontSize: 18,
+        alignSelf: 'center',
+        borderWidth: 3,
+        borderColor: 'black'
     },
 });

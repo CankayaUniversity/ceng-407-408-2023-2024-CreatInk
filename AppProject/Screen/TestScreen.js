@@ -6,19 +6,23 @@ import {
     Text,
     FlatList,
     Button,
-    Image
+    Image,
+    ImageBackground,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const TestScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
-                style={styles.imageStyle}
-            />
+            <ImageBackground source={require('../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                <Image
+                    source={require('../Image/logo-no-background.png')}
+                    style={styles.imageStyle}
+                />
 
-            {/* <TouchableOpacity
+                {/* <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate('RegisterScreen')}>
@@ -32,19 +36,20 @@ const TestScreen = ({ navigation }) => {
                 <Text style={styles.buttonTextStyle}>Login</Text>
             </TouchableOpacity> */}
 
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('DrawingScreen')}>
-                <Text style={styles.buttonTextStyle}>Draw</Text>
-            </TouchableOpacity>
+                {/* <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('DrawingScreen')}>
+                    <Text style={styles.buttonTextStyle}>Draw</Text>
+                </TouchableOpacity> */}
 
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('SelectFileScreen')}>
-                <Text style={styles.buttonTextStyle}>Select File / Use Camera</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('SelectFileScreen')}>
+                    <Text style={styles.buttonTextStyle}>Get Started</Text>
+                </TouchableOpacity>
+            </ImageBackground>
         </View>
     )
 };
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#778899',
         justifyContent: 'center',
-        paddingBottom: 500,
+        //paddingBottom: 500,
     },
     SectionStyle: {
         flexDirection: 'row',
@@ -75,9 +80,10 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: '#333333',
         borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#7DE24E',
-        height: 40,
+        color: '#000000',
+        borderColor: 'black',
+        borderWidth: 3,
+        //height: 40,
         alignItems: 'center',
         borderRadius: 30,
         marginLeft: "35%",
@@ -115,12 +121,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14,
     },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+    },
     imageStyle: {
         width: 400,
         height: 400,
         resizeMode: 'contain',
         marginBottom: 0,
-        marginTop: 450,
+        //marginTop: 450,
         alignSelf: 'center',
     },
 });

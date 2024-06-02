@@ -151,6 +151,7 @@ const Auth = () => {
         name="RegisterScreen"
         component={RegisterScreen}
         options={{
+          headerShown: false,
           title: 'Register', //Set Header Title
           headerStyle: {
             backgroundColor: '#307ecc', //Set Header color
@@ -210,6 +211,12 @@ const App = () => {
         <Stack.Screen
           name="DisplayImage"
           component={DisplayImage}
+          // Hiding header for Splash Screen
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TestScreen"
+          component={TestScreen}
           // Hiding header for Splash Screen
           options={{ headerShown: false }}
         />

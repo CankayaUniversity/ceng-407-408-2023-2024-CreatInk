@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
     },
     image: {
-        width: '100%',
-        height: '100%',
+        width: '95%',
+        height: '80%',
     },
     textView: {
         position: 'absolute',

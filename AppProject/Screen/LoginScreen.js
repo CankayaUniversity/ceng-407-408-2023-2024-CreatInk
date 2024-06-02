@@ -13,6 +13,7 @@ import {
     Keyboard,
     TouchableOpacity,
     KeyboardAvoidingView,
+    ImageBackground,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -84,75 +85,81 @@ const LoginScreen = ({ navigation }) => {
                     justifyContent: 'center',
                     alignContent: 'center',
                 }}>
-                <View>
-                    <KeyboardAvoidingView enabled>
-                        <View style={{ alignItems: 'center' }}>
-                            <Image
-                                source={require('../Image/creatink-high-resolution-logo-transparent.png')}
-                                style={{
-                                    width: '60%',
-                                    height: 240,
-                                    resizeMode: 'contain',
-                                    margin: 30,
-                                }}
-                            />
-                        </View>
-                        <View style={styles.SectionStyle}>
-                            <TextInput
-                                style={styles.inputStyle}
-                                onChangeText={(email) =>
-                                    setUserEmail(email)
-                                }
-                                placeholder="Enter Email" //dummy@abc.com
-                                placeholderTextColor="#8b9cb5"
-                                autoCapitalize="none"
-                                keyboardType="email-address"
-                                returnKeyType="next"
-                                onSubmitEditing={() =>
-                                    passwordInputRef.current &&
-                                    passwordInputRef.current.focus()
-                                }
-                                underlineColorAndroid="#f000"
-                                blurOnSubmit={false}
-                            />
-                        </View>
-                        <View style={styles.SectionStyle}>
-                            <TextInput
-                                style={styles.inputStyle}
-                                onChangeText={(password) =>
-                                    setUserPassword(password)
-                                }
-                                placeholder="Enter Password" //12345
-                                placeholderTextColor="#8b9cb5"
-                                ref={passwordInputRef}
-                                onSubmitEditing={Keyboard.dismiss}
-                                autoCapitalize="none"
-                                blurOnSubmit={false}
-                                secureTextEntry={true}
-                                underlineColorAndroid="#f000"
-                                returnKeyType="next"
-                            />
-                        </View>
-                        {errortext != '' ? (
-                            <Text style={styles.errorTextStyle}>
-                                {errortext}
-                            </Text>
-                        ) : null}
-                        <TouchableOpacity
-                            style={styles.buttonStyle}
-                            activeOpacity={0.5}
-                            onPress={handleSubmitPress}>
-                            <Text style={styles.buttonTextStyle}>Login</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.buttonStyle}
-                            activeOpacity={0.5}
-                            onPress={() => navigation.navigate('RegisterScreen')}>
-                            <Text style={styles.buttonTextStyle}>New here? Register</Text>
-                        </TouchableOpacity>
+                <ImageBackground source={require('../Image/login1.jpg')}
+                    resizeMode='cover'
+                    style={styles.image}>
 
-                    </KeyboardAvoidingView>
-                </View>
+                    <View>
+                        <KeyboardAvoidingView enabled>
+                            <View style={{ alignItems: 'center' }}>
+
+                                <Image
+                                    source={require('../Image/logo-no-background.png')}
+                                    style={{
+                                        width: '60%',
+                                        height: 240,
+                                        resizeMode: 'contain',
+                                        margin: 30,
+                                    }}
+                                />
+                            </View>
+                            <View style={styles.SectionStyle}>
+                                <TextInput
+                                    style={styles.inputStyle}
+                                    onChangeText={(email) =>
+                                        setUserEmail(email)
+                                    }
+                                    placeholder="Email"
+                                    placeholderTextColor="white"
+                                    autoCapitalize="none"
+                                    keyboardType="email-address"
+                                    returnKeyType="next"
+                                    onSubmitEditing={() =>
+                                        passwordInputRef.current &&
+                                        passwordInputRef.current.focus()
+                                    }
+                                    underlineColorAndroid="#f000"
+                                    blurOnSubmit={false}
+                                />
+                            </View>
+                            <View style={styles.SectionStyle}>
+                                <TextInput
+                                    style={styles.inputStyle}
+                                    onChangeText={(password) =>
+                                        setUserPassword(password)
+                                    }
+                                    placeholder="Password"
+                                    placeholderTextColor="white"
+                                    ref={passwordInputRef}
+                                    onSubmitEditing={Keyboard.dismiss}
+                                    autoCapitalize="none"
+                                    blurOnSubmit={false}
+                                    secureTextEntry={true}
+                                    underlineColorAndroid="#f000"
+                                    returnKeyType="next"
+                                />
+                            </View>
+                            {errortext != '' ? (
+                                <Text style={styles.errorTextStyle}>
+                                    {errortext}
+                                </Text>
+                            ) : null}
+                            <TouchableOpacity
+                                style={styles.buttonStyle}
+                                activeOpacity={0.5}
+                                onPress={handleSubmitPress}>
+                                <Text style={styles.buttonTextStyle}>Login</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.buttonStyle}
+                                activeOpacity={0.5}
+                                onPress={() => navigation.navigate('RegisterScreen')}>
+                                <Text style={styles.buttonTextStyle}>New here? Register</Text>
+                            </TouchableOpacity>
+
+                        </KeyboardAvoidingView>
+                    </View>
+                </ImageBackground>
             </ScrollView>
         </View>
     );
@@ -163,23 +170,28 @@ const styles = StyleSheet.create({
     mainBody: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#cc30a0',
+        //backgroundColor: '#cc30a0',
         alignContent: 'center',
     },
     SectionStyle: {
         flexDirection: 'row',
         height: 40,
         marginTop: 5,
-        marginLeft: 35,
-        marginRight: 35,
+        marginLeft: "35%",
+        marginRight: "35%",
         margin: 5,
+    },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
     },
     buttonStyle: {
         backgroundColor: '#333333',
         borderWidth: 0,
         color: '#000000',
-        borderColor: '#000000',
-        height: 40,
+        borderColor: 'black',
+        borderWidth: 3,
+        //height: 40,
         alignItems: 'center',
         borderRadius: 30,
         marginLeft: "35%",

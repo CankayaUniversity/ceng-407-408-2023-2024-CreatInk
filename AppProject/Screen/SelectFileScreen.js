@@ -7,7 +7,8 @@ import {
     Text,
     FlatList,
     Button,
-    Image
+    Image,
+    ImageBackground,
 } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -36,7 +37,7 @@ const SelectFileScreen = ({ navigation }) => {
             }
         });
     };
-    
+
     const handleCameraLaunch = () => {
         const options = {
             mediaType: 'photo',
@@ -60,42 +61,46 @@ const SelectFileScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {selectedImage && (
-                <Image
-                    source={{ uri: selectedImage }}
-                    style={styles.imageStyle}
-                />
-            )}
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={openImagePicker}>
-                <Text style={styles.buttonTextStyle}>Select File</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate("DisplayImage", {selectedImage})}>
-                <Text style={styles.buttonTextStyle}>Edit Image</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate("DrawingScreen", {selectedImage})}>
-                <Text style={styles.buttonTextStyle}>Draw Image</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={handleCameraLaunch}>
-                <Text style={styles.buttonTextStyle}>Take Photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('TestScreen')}>
-                <Text style={styles.buttonTextStyle}>Main Menu</Text>
-            </TouchableOpacity>
+            <ImageBackground source={require('../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                {selectedImage && (
+                    <Image
+                        source={{ uri: selectedImage }}
+                        style={styles.imageStyle}
+                    />
+                )}
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={openImagePicker}>
+                    <Text style={styles.buttonTextStyle}>Select File</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate("DisplayImage", { selectedImage })}>
+                    <Text style={styles.buttonTextStyle}>Edit Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate("DrawingScreen", { selectedImage })}>
+                    <Text style={styles.buttonTextStyle}>Draw Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={handleCameraLaunch}>
+                    <Text style={styles.buttonTextStyle}>Take Photo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('TestScreen')}>
+                    <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                </TouchableOpacity>
+            </ImageBackground>
         </View>
     )
 };
@@ -105,15 +110,15 @@ export default SelectFileScreen;
 const styles = StyleSheet.create({
     mainBody: {
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
         backgroundColor: '#cc30a0',
-        alignContent: 'center',
+        //alignContent: 'center',
     },
     container: {
         flex: 1,
         backgroundColor: '#778899',
-        justifyContent: 'center',
-        paddingBottom: 500,
+        //justifyContent: 'center',
+        //paddingBottom: 500,
     },
     SectionStyle: {
         flexDirection: 'row',
@@ -123,12 +128,17 @@ const styles = StyleSheet.create({
         marginRight: 35,
         margin: 5,
     },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+    },
     buttonStyle: {
         backgroundColor: '#333333',
         borderWidth: 0,
-        color: '#FFFFFF',
-        borderColor: '#7DE24E',
-        height: 40,
+        color: '#000000',
+        borderColor: 'black',
+        borderWidth: 3,
+        //height: 40,
         alignItems: 'center',
         borderRadius: 30,
         marginLeft: "35%",
@@ -171,7 +181,8 @@ const styles = StyleSheet.create({
         height: 400,
         resizeMode: 'contain',
         marginBottom: 20,
-        marginTop: 450,
         alignSelf: 'center',
+        borderWidth: 3, 
+        borderColor:'black'
     },
 });

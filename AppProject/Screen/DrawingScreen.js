@@ -39,7 +39,7 @@ export default function DrawingScreen({ route }) {
   const toggleStrokeMenu = () => {
     setStrokeMenuVisible(!strokeMenuVisible);
   };
-  
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -125,7 +125,7 @@ export default function DrawingScreen({ route }) {
         onTouchEnd={onTouchEnd}
       >
         <ImageBackground source={{ uri: selectedImage }} style={styles.image}>
-          <Svg height={height * 0.7} width={width}>
+          <Svg height={height * 0.65} width={width}>
             {paths.map(({ path, color, strokeWidth }, index) => (
               <Path
                 key={`path-${index}`}
@@ -149,65 +149,70 @@ export default function DrawingScreen({ route }) {
           </Animated.View>
         </ImageBackground>
       </View>
-      <TouchableOpacity
-        style={styles.colorPickerButton}
-        onPress={() => setColorPickerVisible(!colorPickerVisible)}
-      >
-        <Text style={styles.buttonText}>Pick Color</Text>
-      </TouchableOpacity>
-      {colorPickerVisible && (
-        <View style={styles.colorPickerContainer}>
-            {['black', 'red', 'blue', 'green', 'yellow', 'purple', 'orange'].map(color => (
-                <TouchableOpacity
-                    key={color}
-                    style={[styles.colorButton, { backgroundColor: color }]}
-                    onPress={() => {
-                        changeColor(color);
-                        setColorPickerVisible(false);
-                    }}
-                />
-            ))}
-        </View>
-      )}
       <View style={styles.strokeWidthContainer}>
-      <TouchableOpacity
-  style={[
-    styles.strokeButton,
-    { borderWidth: 1, width: 60, height: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
-  ]}
-  onPress={toggleStrokeMenu}
->
-  <Text style={styles.strokeButtonText}>Needles</Text>
-</TouchableOpacity>
-
-  {strokeMenuVisible && (
-    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-      {[1, 3, 5, 7, 10].map((width, index) => (
         <TouchableOpacity
-          key={index}
           style={[
             styles.strokeButton,
-            { borderWidth: width === strokeWidth ? 2 : 1, width: 40, height: 40, borderRadius: 20, marginHorizontal: 5 },
+            { borderWidth: 1, width: 60, height: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
           ]}
-          onPress={() => {
-            changeStrokeWidth(width);
-            setStrokeMenuVisible(false);
-          }}
+          onPress={() => setColorPickerVisible(!colorPickerVisible)}
         >
-          <Text style={styles.strokeButtonText}>{width}</Text>
+          <Text style={styles.strokeButtonText}>Colors</Text>
         </TouchableOpacity>
-      ))}
-    </View>
-  )}
-</View>
+
+        {colorPickerVisible && (
+          <View style={styles.colorPickerContainer}>
+            {['black', 'red', 'blue', 'green', 'yellow', 'purple', 'orange'].map(color => (
+              <TouchableOpacity
+                key={color}
+                style={[styles.colorButton, { backgroundColor: color }]}
+                onPress={() => {
+                  changeColor(color);
+                  setColorPickerVisible(false);
+                }}
+              />
+
+            ))}
+          </View>
+        )}
+        <TouchableOpacity
+          style={[
+            styles.strokeButton,
+            { borderWidth: 1, width: 60, height: 60, borderRadius: 30, justifyContent: 'center', alignItems: 'center' },
+          ]}
+          onPress={toggleStrokeMenu}
+        >
+          <Text style={styles.strokeButtonText}>Needles</Text>
+        </TouchableOpacity>
+
+        {strokeMenuVisible && (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {[1, 3, 5, 7, 10].map((width, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.strokeButton,
+                  { borderWidth: width === strokeWidth ? 2 : 1, width: 40, height: 40, borderRadius: 20, marginBottom: 10 /*marginHorizontal: 5*/ },
+                ]}
+                onPress={() => {
+                  changeStrokeWidth(width);
+                  setStrokeMenuVisible(false);
+                }}
+              >
+                <Text style={styles.strokeButtonText}>{width}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+      </View>
 
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-          <Text style={styles.buttonText}>Clear All</Text>
+          <Text style={styles.buttonText}>Clear 🗑️</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.undoButton} onPress={handleUndoButtonClick}>
-          <Text style={styles.buttonText}>Undo</Text>
+          <Text style={styles.buttonText}>Undo ↶</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -224,15 +229,15 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     width: '80%',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'gray',
-    padding: 10,
-    marginTop: 20,
+    //padding: 10,
+    //marginTop: 20,
     marginBottom: 20,
   },
   imageContainer: {
-    width: width,
-    height: height * 0.7,
+    width: width * 0.95,
+    height: height * 0.6,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'black',
@@ -252,10 +257,10 @@ const styles = StyleSheet.create({
   },
   colorPickerButton: {
     backgroundColor: '#4CAF50',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 10,
+    //paddingVertical: 10,
+    //paddingHorizontal: 20,
+    //borderRadius: 5,
+    //marginTop: 10,
   },
   colorPickerContainer: {
     flexDirection: 'row',
@@ -266,11 +271,12 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     marginHorizontal: 5,
+    borderWidth: 1,
   },
   strokeWidthContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   strokeButton: {
     width: 40,
@@ -288,9 +294,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     width: '80%',
-    marginTop: 20,
+    marginTop: 10,
+    columnGap: 5,
   },
   clearButton: {
     backgroundColor: 'red',
