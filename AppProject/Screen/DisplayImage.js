@@ -155,12 +155,6 @@ const DisplayImage = ({ navigation, route }) => {
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     activeOpacity={0.5}
-                    onPress={() => navigation.navigate("CropImageScreen", { selectedImage })}>
-                    <Text style={styles.buttonTextStyle}>Crop Image</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
                     onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
                     <Text style={styles.buttonTextStyle}>Image to text</Text>
                 </TouchableOpacity>

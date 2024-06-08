@@ -48,13 +48,11 @@ class Customers(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     name = db.Column(db.String(100))
     tattooNum = db.Column(db.Integer)
-    profPic = db.Column(db.Text)
 
-    def _init_(self, client_id, name, tattooNum, profPic):
+    def _init_(self, client_id, name, tattooNum):
         self.client_id = client_id
         self.name = name
         self.tattooNum = tattooNum
-        self.profPic = profPic
 class ClientSchema(ma.Schema):
     class Meta:
         fields = ('id', 'name', 'password', 'email', 'date', 'saved_images')
@@ -66,7 +64,7 @@ class PhotosSchema(ma.Schema):
 
 class CustomersSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'client_id', 'name', 'tattooNum', 'profPic')
+        fields = ('id', 'client_id', 'name', 'tattooNum')
 
 client_schema = ClientSchema()
 clients_schema = ClientSchema(many=True)
@@ -150,8 +148,7 @@ def get_customers(client_id):
                 "customer_id": customer.id,
                 "client_id": customer.client_id,
                 "name": customer.name,
-                "tattooNum": customer.tattooNum,
-                "profPic": customer.profPic
+                "tattooNum": customer.tattooNum
             }
             customers_data.append(customer_data)
 
@@ -177,8 +174,6 @@ def update_customer(customer_id):
             customer.name = data['name']
         if 'tattooNum' in data:
             customer.tattooNum = data['tattooNum']
-        if 'profPic' in data:
-            customer.profPic = data['profPic']
 
         db.session.commit()
 

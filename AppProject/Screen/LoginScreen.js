@@ -1,8 +1,4 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
-import React, { useState, createRef,useContext } from 'react';
+import React, { useState, createRef, useContext } from 'react';
 import {
     StyleSheet,
     TextInput,
@@ -17,17 +13,12 @@ import {
 } from 'react-native';
 import { UserContext } from './UserContext';
 
-
-
-import Loader from './Components/Loader';
-import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-
-const LoginScreen =  ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
     const [email, setUserEmail] = useState('');
     const [password, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
-    const { setUserId } = useContext(UserContext);
+    const { setUserData } = useContext(UserContext);
 
     const passwordInputRef = createRef();
     const url = 'http://10.0.2.2:5000/login';
@@ -35,8 +26,8 @@ const LoginScreen =  ({ navigation }) => {
     const requestBody = {
         email,
         password
-      };
-    const handleSubmitPress = async() => {
+    };
+    const handleSubmitPress = async () => {
         setErrortext('');
         if (!email) {
             alert('Please fill Email');
@@ -46,7 +37,6 @@ const LoginScreen =  ({ navigation }) => {
             alert('Please fill Password');
             return;
         }
-        navigation.replace('DrawerNavigationRoutes');
         setLoading(true);
         let dataToSend = { email: email, password: password };
         let formBody = [];
@@ -56,50 +46,52 @@ const LoginScreen =  ({ navigation }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-
-        fetch('http://10.0.2.2:5000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
             })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message === 'successful') {
-                    // Başarılı giriş durumunda anasayfaya yönlendirme
-                    navigation.replace('DrawerNavigationRoutes');
-                    AsyncStorage.setItem('user_id', data.client_id);
-                } else {
-                    navigation.navigate('LoginScreen')
-                }
-            })
-            .catch(error => console.error('Hata:', error));
+            if (response.ok) {
+                const data = await response.json();
+                const userData = {
+                    userId: String(data.client_id || ''), // Adjust the key according to your API response
+                    email: String(data.email || ''), // Adjust the key according to your API response
+                    password: String(password), // Store the entered password
+                    name: String(data.name || ''), // Adjust the key according to your API response
+                };
+                setUserData(userData);
+                navigation.replace('DrawerNavigationRoutes');
+                alert('Successful login.');
+            } else {
 
+                alert('Wrong email or password.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            setError('Something went wrong. Please try again.');
+        }
     };
 
     return (
         <View style={{ flex: 1, backgroundColor: '#778899' }}>
             {/* <Loader loading={loading} /> */}
-            <ScrollView
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                }}>
-                <ImageBackground source={require('../Image/login1.jpg')}
-                    resizeMode='cover'
-                    style={styles.image}>
+            <ImageBackground source={require('../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
 
+                <ScrollView
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                    }}>
                     <View>
                         <KeyboardAvoidingView enabled>
                             <View style={{ alignItems: 'center' }}>
-
                                 <Image
                                     source={require('../Image/logo-no-background.png')}
                                     style={{
@@ -116,8 +108,8 @@ const LoginScreen =  ({ navigation }) => {
                                     onChangeText={(email) =>
                                         setUserEmail(email)
                                     }
-                                    placeholder="Email"
-                                    placeholderTextColor="white"
+                                    placeholder="Enter Email" //dummy@abc.com
+                                    placeholderTextColor="#8b9cb5"
                                     autoCapitalize="none"
                                     keyboardType="email-address"
                                     returnKeyType="next"
@@ -135,8 +127,8 @@ const LoginScreen =  ({ navigation }) => {
                                     onChangeText={(password) =>
                                         setUserPassword(password)
                                     }
-                                    placeholder="Password"
-                                    placeholderTextColor="white"
+                                    placeholder="Enter Password" //12345
+                                    placeholderTextColor="#8b9cb5"
                                     ref={passwordInputRef}
                                     onSubmitEditing={Keyboard.dismiss}
                                     autoCapitalize="none"
@@ -166,8 +158,8 @@ const LoginScreen =  ({ navigation }) => {
 
                         </KeyboardAvoidingView>
                     </View>
-                </ImageBackground>
-            </ScrollView>
+                </ScrollView>
+            </ImageBackground>
         </View>
     );
 };
