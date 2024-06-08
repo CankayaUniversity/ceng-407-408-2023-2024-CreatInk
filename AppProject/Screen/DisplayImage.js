@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import RNPhotoManipulator from 'react-native-photo-manipulator';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 import {
     StyleSheet,
     View,
@@ -11,7 +12,10 @@ import {
 } from 'react-native';
 
 const DisplayImage = ({ navigation, route }) => {
+    const { userData } = useContext(UserContext);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [message, setMessage] = useState('');
+    const [base4image, setbase4Image] = useState('');
 
     useEffect(() => {
         if (route.params && route.params.selectedImage) {
@@ -37,6 +41,7 @@ const DisplayImage = ({ navigation, route }) => {
                 }
             });
             if (response.data.image) {
+                setbase4Image(response.data.image)
                 const base64Image = `data:image/jpeg;base64,${response.data.image}`;
                 setSelectedImage(base64Image);
             } else {
@@ -60,6 +65,25 @@ const DisplayImage = ({ navigation, route }) => {
 
     const imageText = () => handleImageProcessing('http://10.0.2.2:5000/processImage');
     const sharpenImage = () => handleImageProcessing('http://10.0.2.2:5000/sharpenImage');
+    const extractEdges = () => handleImageProcessing('http://10.0.2.2:5000/extractEdges');
+
+    const addPhoto = async () => {
+        console.log("addPhoto function called");
+
+        try {
+            console.log("Sending image data...");
+            const response = await axios.post('http://10.0.2.2:5000/addPhotos', {
+                client_id: userData.userId,
+                tattoos: base4image // using uri directly, but you may need to convert it if your server requires base64 or binary
+            });
+
+            setMessage(response.data.message);
+            console.log("Response received: ", response.data.message);
+        } catch (error) {
+            console.error("Error during axios post:", error);
+            setMessage('Error uploading photo: ' + error.message);
+        }
+    };
 
     const cropImage = async () => {
         if (!selectedImage) return;
@@ -125,8 +149,26 @@ const DisplayImage = ({ navigation, route }) => {
                 <TouchableOpacity
                     style={styles.buttonStyle}
                     activeOpacity={0.5}
+                    onPress={extractEdges}>
+                    <Text style={styles.buttonTextStyle}>Extract Edges</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate("CropImageScreen", { selectedImage })}>
+                    <Text style={styles.buttonTextStyle}>Crop Image</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
                     onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
                     <Text style={styles.buttonTextStyle}>Image to text</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={addPhoto}>
+                    <Text style={styles.buttonTextStyle}>Add to Collection</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.buttonStyle}

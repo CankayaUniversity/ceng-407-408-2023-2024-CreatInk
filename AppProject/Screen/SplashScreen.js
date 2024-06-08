@@ -1,7 +1,3 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
 import React, { useState, useEffect } from 'react';
 import {
     ActivityIndicator,
@@ -54,7 +50,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#778899',
         justifyContent: 'center',
-        //paddingBottom: 500,
     },
     image: {
         flex: 1,

@@ -135,6 +135,7 @@ import DrawingApp from './Screen/DrawingScreen';
 import TestScreen from './Screen/TestScreen';
 import DisplayImage from './Screen/DisplayImage';
 import ImageToTextScreen from './Screen/TextScreen';
+import { UserProvider } from './Screen/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -151,7 +152,6 @@ const Auth = () => {
         name="RegisterScreen"
         component={RegisterScreen}
         options={{
-          headerShown: false,
           title: 'Register', //Set Header Title
           headerStyle: {
             backgroundColor: '#307ecc', //Set Header color
@@ -168,61 +168,58 @@ const Auth = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
-        {/* SplashScreen which will come once for 5 Seconds */}
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        {/* Auth Navigator: Include Login and Signup */}
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={{ headerShown: false }}
-        />
-        {/* Navigation Drawer as a landing page */}
-        <Stack.Screen
-          name="DrawerNavigationRoutes"
-          component={DrawerNavigationRoutes}
-          // Hiding header for Navigation Drawer
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DrawingScreen"
-          component={DrawingApp}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SelectFileScreen"
-          component={SelectFileScreen}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-         <Stack.Screen
-          name="ImageToTextScreen"
-          component={ImageToTextScreen}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DisplayImage"
-          component={DisplayImage}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="TestScreen"
-          component={TestScreen}
-          // Hiding header for Splash Screen
-          options={{ headerShown: false }}
-        />
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen">
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            // Hiding header for Splash Screen
+            options={{ headerShown: false }}
+          />
+          {/* Auth Navigator: Include Login and Signup */}
+          <Stack.Screen
+            name="Auth"
+            component={Auth}
+            options={{ headerShown: false }}
+          />
+          {/* Navigation Drawer as a landing page */}
+          <Stack.Screen
+            name="DrawerNavigationRoutes"
+            component={DrawerNavigationRoutes}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DrawingScreen"
+            component={DrawingApp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SelectFileScreen"
+            component={SelectFileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ImageToTextScreen"
+            component={ImageToTextScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DisplayImage"
+            component={DisplayImage}
+            options={{ headerShown: false }}
+          />
+          {/* <Stack.Screen
+            name="TestScreen"
+            component={TestScreen}
+            // Hiding header for Splash Screen
+            options={{ headerShown: false }}
+          /> */}
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
+
   );
 };
 
