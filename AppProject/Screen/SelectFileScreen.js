@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import RNPhotoManipulator from 'react-native-photo-manipulator';
 
 import {
     StyleSheet,
     View,
     Text,
-    FlatList,
-    Button,
     Image,
     ImageBackground,
 } from 'react-native';
@@ -21,8 +18,8 @@ const SelectFileScreen = ({ navigation }) => {
         const options = {
             mediaType: 'photo',
             includeBase64: false,
-            maxHeight: 600,
-            maxWidth: 550,
+            maxHeight: 2000,
+            maxWidth: 2000,
         };
 
         launchImageLibrary(options, (response) => {
@@ -41,8 +38,8 @@ const SelectFileScreen = ({ navigation }) => {
         const options = {
             mediaType: 'photo',
             includeBase64: false,
-            maxHeight: 600,
-            maxWidth: 550,
+            maxHeight: 2000,
+            maxWidth: 2000,
         };
     };
 
