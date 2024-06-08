@@ -13,7 +13,6 @@ import {
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { launchCamera } from 'react-native-image-picker';
 
 const SelectFileScreen = ({ navigation }) => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -45,19 +44,7 @@ const SelectFileScreen = ({ navigation }) => {
             maxHeight: 600,
             maxWidth: 550,
         };
-
-        launchCamera(options, response => {
-            if (response.didCancel) {
-                console.log('User cancelled camera');
-            } else if (response.error) {
-                console.log('Camera Error: ', response.error);
-            } else {
-                let imageUri = response.uri || response.assets?.[0]?.uri;
-                setSelectedImage(imageUri);
-                console.log(imageUri);
-            }
-        });
-    }
+    };
 
     return (
         <View style={styles.container}>

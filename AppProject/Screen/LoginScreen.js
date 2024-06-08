@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef,useContext } from 'react';
 import {
     StyleSheet,
     TextInput,
@@ -15,21 +15,28 @@ import {
     KeyboardAvoidingView,
     ImageBackground,
 } from 'react-native';
+import { UserContext } from './UserContext';
 
-import AsyncStorage from '@react-native-community/async-storage';
+
 
 import Loader from './Components/Loader';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen =  ({ navigation }) => {
     const [email, setUserEmail] = useState('');
     const [password, setUserPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
+    const { setUserId } = useContext(UserContext);
 
     const passwordInputRef = createRef();
+    const url = 'http://10.0.2.2:5000/login';
 
-    const handleSubmitPress = () => {
+    const requestBody = {
+        email,
+        password
+      };
+    const handleSubmitPress = async() => {
         setErrortext('');
         if (!email) {
             alert('Please fill Email');
