@@ -28,11 +28,10 @@ class Clients(db.Model):
     email = db.Column(db.String(100))
     date = db.Column(db.DateTime, default=datetime.datetime.now)
 
-    def _init_(self, name, password, email):
+    def __init__(self, name, password, email):
         self.name = name
         self.password = password
         self.email = email
-
 
 class Photos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -325,9 +324,24 @@ def add_client():
     name = request.json['name']
     password = request.json['password']
     email = request.json['email']
-
+    
     client = Clients(name, password, email)
+    
     db.session.add(client)
+    db.session.commit()
+    return jsonify({"id": client.id, "name": client.name, "email": client.email})
+
+@app.route("/updateClient/<id>", methods=['PUT'])
+def update_client(id):
+    client = Clients.query.get(id)
+    name = request.json['name']
+    password = request.json['password']
+    email = request.json['email']
+
+    client.name = name
+    client.password = password
+    client.email = email
+
     db.session.commit()
     return client_schema.jsonify(client)
 
@@ -348,20 +362,6 @@ def login_client():
         return jsonify({"message": "successful", "client_id": client.id})
     else:
         return jsonify({"message": "invalid password"}), 401
-
-@app.route("/updateClient/<id>", methods=['PUT'])
-def update_client(id):
-    client = Clients.query.get(id)
-    name = request.json['name']
-    password = request.json['password']
-    email = request.json['email']
-
-    client.name = name
-    client.password = password
-    client.email = email
-
-    db.session.commit()
-    return client_schema.jsonify(client)
 
 @app.route("/deleteClient/<id>", methods=['DELETE'])
 def delete_client(id):

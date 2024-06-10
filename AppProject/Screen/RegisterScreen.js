@@ -6,18 +6,18 @@ import {
     Text,
     Image,
     KeyboardAvoidingView,
-    Keyboard,
     TouchableOpacity,
     ScrollView,
     ImageBackground,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from './Components/Loader';
 
 const RegisterScreen = ({ navigation }, props) => {
     const [name, setUserName] = useState('');
     const [email, setUserEmail] = useState('');
-    const [password, setUserAge] = useState('');
+    const [password, setUserPassword] = useState('');
     const [userAddress, setUserAddress] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrortext] = useState('');
@@ -26,8 +26,8 @@ const RegisterScreen = ({ navigation }, props) => {
         setIsRegistraionSuccess
     ] = useState(false);
 
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const emailInputRef = createRef();
-    const ageInputRef = createRef();
     const addressInputRef = createRef();
     const passwordInputRef = createRef();
 
@@ -45,10 +45,10 @@ const RegisterScreen = ({ navigation }, props) => {
             alert('Please fill Password');
             return;
         }
-        if (!userAddress) {
-            alert('Please fill Address');
-            return;
-        }
+        // if (!userAddress) {
+        //     alert('Please fill Address');
+        //     return;
+        // }
 
         //Show Loader
         setLoading(true);
@@ -69,35 +69,28 @@ const RegisterScreen = ({ navigation }, props) => {
             method: 'POST',
             body: JSON.stringify({ name: name, password: password, email: email }),
             headers: {
-                //Header Defination
-                'Content-Type':
-                    'application/json',
+                'Content-Type': 'application/json',
             },
         })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log(
-                    'Registration Successful. Please Login to proceed'
-                );
-                //Hide Loader
-                setLoading(false);
-                console.log(responseJson);
-                // If server response message same as Data Matched
-                if (responseJson.status === 'success') {
-                    setIsRegistraionSuccess(true);
-                    console.log(
-                        'Registration Successful. Please Login to proceed'
-                    );
-                } else {
-                    setErrortext(responseJson.msg);
+            .then((response) => response.text())  // Changed to .text()
+            .then((responseText) => {
+                console.log('Response Text:', responseText);
+                try {
+                    const responseJson = JSON.parse(responseText);
+                    console.log('Parsed JSON:', responseJson);
+                    // Process the response as JSON
+                } catch (error) {
+                    console.error('JSON Parse Error:', error);
+                    setErrortext('Invalid server response');
                 }
+                setLoading(false);
             })
             .catch((error) => {
-                //Hide Loader
                 setLoading(false);
                 console.error(error);
             });
     };
+
     if (isRegistraionSuccess) {
         return (
             <View
@@ -106,30 +99,27 @@ const RegisterScreen = ({ navigation }, props) => {
                     backgroundColor: '#cc30a0',
                     justifyContent: 'center',
                 }}>
-                <ImageBackground source={require('../Image/login1.jpg')}
-                    resizeMode='cover'
-                    style={styles.image}>
-                    <Image
-                        source={require('../Image/success.png')}
-                        style={{
-                            height: 150,
-                            resizeMode: 'contain',
-                            alignSelf: 'center'
-                        }}
-                    />
-                    <Text style={styles.successTextStyle}>
-                        Registration Successful
-                    </Text>
-                    <TouchableOpacity
-                        style={styles.buttonStyle}
-                        activeOpacity={0.5}
-                        onPress={() => props.navigation.navigate('LoginScreen')}>
-                        <Text style={styles.buttonTextStyle}>Login Now</Text>
-                    </TouchableOpacity>
-                </ImageBackground>
+                <Image
+                    source={require('../Image/success.png')}
+                    style={{
+                        height: 150,
+                        resizeMode: 'contain',
+                        alignSelf: 'center'
+                    }}
+                />
+                <Text style={styles.successTextStyle}>
+                    Registration Successful
+                </Text>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    activeOpacity={0.5}
+                    onPress={() => props.navigation.navigate('LoginScreen')}>
+                    <Text style={styles.buttonTextStyle}>Login Now</Text>
+                </TouchableOpacity>
             </View>
         );
     }
+
     return (
         <View style={{ flex: 1, backgroundColor: '#778899' }}>
             <ImageBackground source={require('../Image/login1.jpg')}
@@ -164,7 +154,8 @@ const RegisterScreen = ({ navigation }, props) => {
                                 returnKeyType="next"
                                 autoCapitalize="none"
                                 onSubmitEditing={() =>
-                                    emailInputRef.current && emailInputRef.current.focus()
+                                    nameInputRef.current &&
+                                    nameInputRef.current.focus()
                                 }
                                 blurOnSubmit={false}
                             />
@@ -191,36 +182,31 @@ const RegisterScreen = ({ navigation }, props) => {
                         <View style={styles.SectionStyle}>
                             <TextInput
                                 style={styles.inputStyle}
-                                onChangeText={(UserAge) => setUserAge(UserAge)}
+                                onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                                 underlineColorAndroid="#f000"
                                 placeholder="Password"
                                 placeholderTextColor="white"
-                                ref={ageInputRef}
+                                ref={passwordInputRef}
                                 returnKeyType="next"
                                 autoCapitalize="none"
                                 onSubmitEditing={() =>
-                                    addressInputRef.current &&
-                                    addressInputRef.current.focus()
+                                    addressInputRef.current && addressInputRef.current.focus()
                                 }
                                 blurOnSubmit={false}
+                                secureTextEntry={!isPasswordVisible}
                             />
+                            <TouchableOpacity
+                                style={styles.eyeButton}
+                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                            >
+                                <Icon
+                                    name={isPasswordVisible ? 'eye' : 'eye-slash'}
+                                    size={20}
+                                    color="white"
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.SectionStyle}>
-                            <TextInput
-                                style={styles.inputStyle}
-                                onChangeText={(UserAddress) =>
-                                    setUserAddress(UserAddress)
-                                }
-                                underlineColorAndroid="#f000"
-                                placeholder="Address"
-                                placeholderTextColor="white"
-                                ref={addressInputRef}
-                                returnKeyType="next"
-                                autoCapitalize="none"
-                                onSubmitEditing={Keyboard.dismiss}
-                                blurOnSubmit={false}
-                            />
-                        </View>
+
                         {errortext != '' ? (
                             <Text style={styles.errorTextStyle}>
                                 {errortext}
@@ -246,6 +232,7 @@ const RegisterScreen = ({ navigation }, props) => {
         </View>
     );
 };
+
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
@@ -256,10 +243,16 @@ const styles = StyleSheet.create({
         marginLeft: "35%",
         marginRight: "35%",
         margin: 5,
+        alignItems: 'center',
     },
     image: {
         flex: 1,
         justifyContent: 'center',
+    },
+    eyeButton: {
+        padding: 10,
+        position: 'absolute',
+        right: 10,
     },
     buttonStyle: {
         backgroundColor: '#333333',
@@ -267,7 +260,6 @@ const styles = StyleSheet.create({
         color: '#000000',
         borderColor: 'black',
         borderWidth: 3,
-        //height: 40,
         alignItems: 'center',
         borderRadius: 30,
         marginLeft: "35%",
@@ -284,7 +276,7 @@ const styles = StyleSheet.create({
         flex: 1,
         color: 'white',
         paddingLeft: 15,
-        paddingRight: 15,
+        paddingRight: 45,
         borderWidth: 1,
         borderRadius: 30,
         borderColor: '#dadae8',
