@@ -5,11 +5,12 @@ import {
     View,
     Text,
     Image,
-    ImageBackground,
+    ImageBackground
 } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { launchCamera } from 'react-native-image-picker';
 
 const SelectFileScreen = ({ navigation }) => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -38,10 +39,22 @@ const SelectFileScreen = ({ navigation }) => {
         const options = {
             mediaType: 'photo',
             includeBase64: false,
-            maxHeight: 2000,
-            maxWidth: 2000,
+            maxHeight: 800,
+            maxWidth: 800,
         };
-    };
+
+        launchCamera(options, response => {
+            if (response.didCancel) {
+                console.log('User cancelled camera');
+            } else if (response.error) {
+                console.log('Camera Error: ', response.error);
+            } else {
+                let imageUri = response.uri || response.assets?.[0]?.uri;
+                setSelectedImage(imageUri);
+                console.log(imageUri);
+            }
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 20,
         alignSelf: 'center',
-        borderWidth: 3, 
-        borderColor:'black'
+        borderWidth: 3,
+        borderColor: 'black'
     },
 });
