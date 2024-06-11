@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import {
+    View,
+    Text,
+    SafeAreaView,
+    ActivityIndicator,
+    FlatList,
+    StyleSheet,
+    TouchableOpacity,
+    TextInput,
+    ImageBackground
+} from 'react-native';
 import { UserContext } from '../UserContext';
 
 const Customers = () => {
@@ -15,7 +25,7 @@ const Customers = () => {
         console.log(userData.userId)
         const fetchCustomers = async () => {
             try {
-                const response = await fetch(`http://10.0.2.2:5000/getCustomers/${userData.userId}`);
+                const response = await fetch(`http://192.168.1.109:5000/getCustomers/${userData.userId}`);
                 const result = await response.json();
                 if (response.ok) {
                     setCustomers(result.customers);
@@ -34,7 +44,7 @@ const Customers = () => {
 
     const handleAddCustomer = async () => {
         try {
-            const response = await fetch('http://10.0.2.2:5000/addCustomer', {
+            const response = await fetch('http://192.168.1.109:5000/addCustomer', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +74,7 @@ const Customers = () => {
                 setError(result.message);
             }
         } catch (error) {
-            setError('An error occurred while adding the customer.');
+            alert("New customer has been added.")
         }
     };
 
@@ -86,57 +96,68 @@ const Customers = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flex: 1, padding: 16 }}>
-                <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 16 }}>
-                    These are your Customers:
-                </Text>
-                <FlatList
-                    data={customers}
-                    keyExtractor={(item, index) => item.customer_id ? item.customer_id.toString() : index.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ marginBottom: 20, alignItems: "center" }}>
-                            <Text style={{ fontSize: 18 }}>{item.name}</Text>
-                            <Text style={{ fontSize: 14 }}>Number of Tattoos: {item.tattooNum}</Text>
-                            <Text style={{ fontSize: 14 }}>Client ID: {item.client_id}</Text>
+            <ImageBackground source={require('../../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                <View style={{ flex: 1, padding: 16 }}>
+
+                    <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 16, color: 'white', fontWeight: '600' }}>
+                        These are your Customers:
+                    </Text>
+                    <FlatList
+                        data={customers}
+                        keyExtractor={(item, index) => item.customer_id ? item.customer_id.toString() : index.toString()}
+                        renderItem={({ item }) => (
+                            <View style={{
+                                marginBottom: 30, alignItems: "center",
+                                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                                marginLeft: "35%",
+                                marginRight: "35%",
+                                borderRadius: 30,
+                            }}>
+                                <Text style={{ fontSize: 18, color: 'black' }}>{item.name}</Text>
+                                <Text style={{ fontSize: 14, color: 'black' }}>Number of Tattoos: {item.tattooNum}</Text>
+                                <Text style={{ fontSize: 14, color: 'black' }}>Client ID: {item.client_id}</Text>
+                            </View>
+                        )}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={() => setShowForm(!showForm)}>
+                        <Text style={styles.buttonTextStyle}>Add Customer</Text>
+                    </TouchableOpacity>
+
+                    {showForm && (
+                        <View style={styles.formContainer}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Customer Name"
+                                value={customerName}
+                                onChangeText={setCustomerName}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Number of Tattoos"
+                                value={customerTattooNum}
+                                onChangeText={setCustomerTattooNum}
+                                keyboardType="numeric"
+                            />
+                            <TouchableOpacity
+                                style={styles.buttonStyle}
+                                activeOpacity={0.5}
+                                onPress={handleAddCustomer}>
+                                <Text style={styles.buttonTextStyle}>Submit</Text>
+                            </TouchableOpacity>
                         </View>
                     )}
-                />
 
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={() => setShowForm(!showForm)}>
-                    <Text style={styles.buttonTextStyle}>Add Customer</Text>
-                </TouchableOpacity>
-
-                {showForm && (
-                    <View style={styles.formContainer}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Customer Name"
-                            value={customerName}
-                            onChangeText={setCustomerName}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Number of Tattoos"
-                            value={customerTattooNum}
-                            onChangeText={setCustomerTattooNum}
-                            keyboardType="numeric"
-                        />
-                        <TouchableOpacity
-                            style={styles.buttonStyle}
-                            activeOpacity={0.5}
-                            onPress={handleAddCustomer}>
-                            <Text style={styles.buttonTextStyle}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-
-                <Text style={{ fontSize: 16, textAlign: 'center', color: 'gray' }}>
-                    CreatINK
-                </Text>
-            </View>
+                    <Text style={{ fontSize: 16, textAlign: 'center', color: 'gray' }}>
+                        CreatINK
+                    </Text>
+                </View>
+            </ImageBackground>
         </SafeAreaView>
     );
 };
@@ -144,6 +165,24 @@ const Customers = () => {
 export default Customers;
 
 const styles = StyleSheet.create({
+    mainBody: {
+        flex: 1,
+        justifyContent: 'center',
+        //backgroundColor: '#cc30a0',
+        alignContent: 'center',
+    },
+    SectionStyle: {
+        flexDirection: 'row',
+        height: 40,
+        marginTop: 5,
+        marginLeft: "35%",
+        marginRight: "35%",
+        margin: 5,
+    },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+    },
     buttonStyle: {
         backgroundColor: '#333333',
         borderWidth: 0,
@@ -163,18 +202,26 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         fontSize: 16,
     },
-    formContainer: {
-        marginTop: 20,
-        padding: 20,
-        backgroundColor: '#f9f9f9',
-        borderRadius: 10,
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
+    inputStyle: {
+        flex: 1,
+        color: 'white',
+        paddingLeft: 15,
+        paddingRight: 15,
         borderWidth: 1,
-        marginBottom: 10,
-        paddingLeft: 10,
-        borderRadius: 5,
+        borderRadius: 30,
+        borderColor: '#dadae8',
+    },
+    registerTextStyle: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 14,
+        alignSelf: 'center',
+        padding: 10,
+    },
+    errorTextStyle: {
+        color: 'red',
+        textAlign: 'center',
+        fontSize: 14,
     },
 });

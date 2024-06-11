@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ImageBackground, SafeAreaView } from 'react-native';
 import { UserContext } from '../UserContext';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ const PersonalInfo = () => {
     useEffect(() => {
         const fetchClient = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:5000/getClient/${userData.userId}`);
+                const response = await axios.get(`http://192.168.1.109:5000/getClient/${userData.userId}`);
                 setClient(response.data);
             } catch (err) {
                 setError(err);
@@ -49,13 +49,18 @@ const PersonalInfo = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Home Screen</Text>
-            <Text style={styles.text}>User ID: {client.id}</Text>
-            <Text style={styles.text}>Email: {client.email}</Text>
-            <Text style={styles.text}>Name: {client.name}</Text>
-            <Text style={styles.text}>Password: {client.password}</Text>
-        </View>
+        <SafeAreaView style={{ flex: 1 }}>
+            <ImageBackground source={require('../../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
+                <View style={styles.container}>
+                    <Text style={styles.nametext}>Welcome, {client.name}!</Text>
+                    {/* <Text style={styles.text}>User ID: {client.id}</Text> */}
+                    <Text style={styles.text}>Email: {client.email}</Text>
+                    <Text style={styles.text}>Password: {client.password}</Text>
+                </View>
+            </ImageBackground>
+        </SafeAreaView>
     );
 };
 
@@ -64,10 +69,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        marginLeft: "35%",
+        marginRight: "35%",
+        marginTop: "20%",
+        marginBottom: "20%",
+        borderRadius: 30,
+    },
+    nametext: {
+        fontSize: 40,
+        fontWeight: 'bold',
     },
     text: {
         fontSize: 20,
         fontWeight: 'bold',
+    },
+    image: {
+        flex: 1,
+        justifyContent: 'center',
     },
 });
 

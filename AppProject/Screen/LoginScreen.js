@@ -21,7 +21,7 @@ const LoginScreen = ({ navigation }) => {
     const { setUserData } = useContext(UserContext);
 
     const passwordInputRef = createRef();
-    const url = 'http://10.0.2.2:5000/login';
+    const url = 'http://192.168.1.109:5000/login';
 
     const requestBody = {
         email,
@@ -71,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
             }
         } catch (error) {
             console.error('Login error:', error);
-            setError('Something went wrong. Please try again.');
+            setErrortext('Something went wrong. Please try again.');
         }
     };
 

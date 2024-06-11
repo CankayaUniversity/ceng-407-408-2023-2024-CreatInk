@@ -129,6 +129,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
+import CropScreen from './Screen/CropScreen';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 import SelectFileScreen from './Screen/SelectFileScreen';
 import DrawingApp from './Screen/DrawingScreen';
@@ -136,6 +137,7 @@ import TestScreen from './Screen/TestScreen';
 import DisplayImage from './Screen/DisplayImage';
 import ImageToTextScreen from './Screen/TextScreen';
 import { UserProvider } from './Screen/UserContext';
+import DrawScreen from './Screen/DrawScreen';
 
 const Stack = createStackNavigator();
 
@@ -208,6 +210,16 @@ const App = () => {
           <Stack.Screen
             name="DisplayImage"
             component={DisplayImage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DrawScreen"
+            component={DrawScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CropScreen"
+            component={CropScreen}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen

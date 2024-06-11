@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Image, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
 import axios from 'axios';
 import { UserContext } from '../UserContext';
 
@@ -13,9 +13,9 @@ const Collections = () => {
         const fetchPhotos = async () => {
             try {
                 console.log('Fetching photos for user:', userData.userId);
-                const response = await axios.get(`http://10.0.2.2:5000/getClientPhotos/${userData.userId}`);
+                const response = await axios.get(`http://192.168.1.109:5000/getClientPhotos/${userData.userId}`);
                 console.log('Response data:', response.data);
-                
+
                 if (Array.isArray(response.data)) {
                     setPhotos(response.data);
                 } else {
@@ -51,10 +51,12 @@ const Collections = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <ImageBackground source={require('../../Image/login1.jpg')}
+                resizeMode='cover'
+                style={styles.image}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>
                     These Are Your Collections
-                    {'\n\n'}
                 </Text>
             </View>
             <ScrollView contentContainerStyle={styles.scrollView}>
@@ -74,9 +76,10 @@ const Collections = () => {
             <View style={styles.footer}>
                 <Text style={styles.footerText}>CreatINK</Text>
             </View>
+            </ImageBackground>
         </SafeAreaView>
     );
-    
+
 };
 
 export default Collections;
@@ -94,10 +97,15 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 20,
         textAlign: 'center',
-        marginBottom: 16,
+        marginBottom: 10,
     },
     scrollView: {
         alignItems: 'center',
+        marginBottom: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        marginLeft: "20%",
+        marginRight: "20%",
+        borderRadius: 30,
     },
     photoContainer: {
         marginBottom: 20,

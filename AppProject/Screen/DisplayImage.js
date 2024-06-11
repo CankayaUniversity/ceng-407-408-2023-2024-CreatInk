@@ -9,6 +9,7 @@ import {
     Image,
     TouchableOpacity,
     ImageBackground,
+    Alert,
 } from 'react-native';
 
 const DisplayImage = ({ navigation, route }) => {
@@ -41,7 +42,7 @@ const DisplayImage = ({ navigation, route }) => {
                 }
             });
             if (response.data.image) {
-                setbase4Image(response.data.image)
+                setbase4Image(response.data.image);
                 const base64Image = `data:image/jpeg;base64,${response.data.image}`;
                 setSelectedImage(base64Image);
             } else {
@@ -50,38 +51,34 @@ const DisplayImage = ({ navigation, route }) => {
         } catch (error) {
             console.error('Error uploading image:', error);
             if (error.response) {
-                // Server responded with a status other than 2xx
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);
             } else if (error.request) {
-                // Request was made but no response was received
                 console.error('Request data:', error.request);
             } else {
-                // Something else happened
                 console.error('Error message:', error.message);
             }
         }
     };
 
-    const imageText = () => handleImageProcessing('http://10.0.2.2:5000/processImage');
-    const sharpenImage = () => handleImageProcessing('http://10.0.2.2:5000/sharpenImage');
-    const extractEdges = () => handleImageProcessing('http://10.0.2.2:5000/extractEdges');
+    const imageText = () => handleImageProcessing('http://192.168.1.109:5000/processImage');
+    const sharpenImage = () => handleImageProcessing('http://192.168.1.109:5000/sharpenImage');
+    const extractEdges = () => handleImageProcessing('http://192.168.1.109:5000/extractEdges');
 
     const addPhoto = async () => {
         console.log("addPhoto function called");
 
         try {
             console.log("Sending image data...");
-            const response = await axios.post('http://10.0.2.2:5000/addPhotos', {
+            const response = await axios.post('http://192.168.1.109:5000/addPhotos', {
                 client_id: userData.userId,
-                tattoos: base4image // using uri directly, but you may need to convert it if your server requires base64 or binary
+                tattoos: base4image
             });
 
             setMessage(response.data.message);
             console.log("Response received: ", response.data.message);
         } catch (error) {
-            console.error("Error during axios post:", error);
-            setMessage('Error uploading photo: ' + error.message);
+            Alert.alert("You must edit the image first.");
         }
     };
 
@@ -121,55 +118,61 @@ const DisplayImage = ({ navigation, route }) => {
         <View style={styles.container}>
             <ImageBackground source={require('../Image/login1.jpg')}
                 resizeMode='cover'
-                style={styles.image}>
-                {selectedImage && (
-                    <Image
-                        source={{ uri: selectedImage }}
-                        style={styles.imageStyle}
-                    />
-                )}
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={imageText}>
-                    <Text style={styles.buttonTextStyle}>Get Model</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={sharpenImage}>
-                    <Text style={styles.buttonTextStyle}>Sharpen Model</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={cropImage}>
-                    <Text style={styles.buttonTextStyle}>Crop</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={extractEdges}>
-                    <Text style={styles.buttonTextStyle}>Extract Edges</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
-                    <Text style={styles.buttonTextStyle}>Image to text</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={addPhoto}>
-                    <Text style={styles.buttonTextStyle}>Add to Collection</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.buttonStyle}
-                    activeOpacity={0.5}
-                    onPress={() => navigation.navigate('TestScreen')}>
-                    <Text style={styles.buttonTextStyle}>Main Menu</Text>
-                </TouchableOpacity>
+                style={styles.imageBackground}>
+
+                <View style={styles.imageContainer}>
+                    {selectedImage && (
+                        <Image
+                            source={{ uri: selectedImage }}
+                            style={styles.imageStyle}
+                        />
+                    )}
+                </View>
+
+                <View style={styles.buttonsContainer}>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={imageText}>
+                        <Text style={styles.buttonTextStyle}>Get Model</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={sharpenImage}>
+                        <Text style={styles.buttonTextStyle}>Sharpen Model</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={() => navigation.navigate("DrawScreen", { selectedImage })}>
+                        <Text style={styles.buttonTextStyle}>Draw</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={extractEdges}>
+                        <Text style={styles.buttonTextStyle}>Extract Edges</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={() => navigation.navigate("ImageToTextScreen", { selectedImage })}>
+                        <Text style={styles.buttonTextStyle}>Image to text</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={addPhoto}>
+                        <Text style={styles.buttonTextStyle}>Add to Collection</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonStyle}
+                        activeOpacity={0.5}
+                        onPress={() => navigation.navigate('TestScreen')}>
+                        <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                    </TouchableOpacity>
+                </View>
             </ImageBackground>
         </View>
     );
@@ -178,81 +181,50 @@ const DisplayImage = ({ navigation, route }) => {
 export default DisplayImage;
 
 const styles = StyleSheet.create({
-    mainBody: {
-        flex: 1,
-        //justifyContent: 'center',
-        backgroundColor: '#cc30a0',
-        //alignContent: 'center',
-    },
     container: {
         flex: 1,
-        backgroundColor: '#778899',
-        //justifyContent: 'center',
-        //paddingBottom: 500,
-    },
-    SectionStyle: {
         flexDirection: 'row',
-        height: 40,
-        marginTop: 5,
-        marginLeft: 35,
-        marginRight: 35,
-        margin: 5,
+        backgroundColor: '#778899',
     },
-    image: {
+    imageBackground: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    imageContainer: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        //alignItems: 'center',
+        marginRight: 20,
     },
     buttonStyle: {
         backgroundColor: '#333333',
-        borderWidth: 0,
+        borderWidth: 3,
         color: '#000000',
         borderColor: 'black',
-        borderWidth: 3,
-        //height: 40,
+        // borderWidth: 3,
         alignItems: 'center',
         borderRadius: 30,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginTop: 10,
         marginLeft: "35%",
         marginRight: "35%",
-        marginTop: 2,
-        marginBottom: 2,
     },
     buttonTextStyle: {
         color: '#FFFFFF',
-        paddingVertical: 10,
         fontSize: 16,
-    },
-    inputStyle: {
-        flex: 1,
-        color: 'black',
-        paddingLeft: 15,
-        paddingRight: 15,
-        borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#dadae8',
-    },
-    registerTextStyle: {
-        color: 'white',
-        backgroundColor: '#333333',
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'flex-start',
-        padding: 10,
-        marginTop: 10,
-        marginBottom: 20,
-        alignSelf: 'center',
-    },
-    errorTextStyle: {
-        color: 'red',
-        textAlign: 'center',
-        fontSize: 14,
     },
     imageStyle: {
         width: 400,
         height: 400,
         resizeMode: 'contain',
-        marginBottom: 20,
-        alignSelf: 'center',
         borderWidth: 3,
-        borderColor: 'black'
+        borderColor: 'black',
     },
 });
