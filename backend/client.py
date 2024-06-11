@@ -10,7 +10,7 @@ image_path = "C:/Users/Aylin/Documents/GitHub/ceng-407-408-2023-2024-CreatInk/ba
 image = cv2.imread(image_path)
 
 # Resmi POST isteği ile gönder
-url = "http://10.0.2.2:5000/processImage"
+url = "http://192.168.1.109:5000/processImage"
 files = {"image": open(image_path, "rb")}
 response = requests.post(url, files=files)
 

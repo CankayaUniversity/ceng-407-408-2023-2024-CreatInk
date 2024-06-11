@@ -65,7 +65,7 @@ const RegisterScreen = ({ navigation }, props) => {
         }
         formBody = formBody.join('&');
 
-        fetch('http://10.0.2.2:5000/addClient', {
+        fetch('http://192.168.1.109:5000/addClient', {
             method: 'POST',
             body: JSON.stringify({ name: name, password: password, email: email }),
             headers: {
@@ -78,6 +78,7 @@ const RegisterScreen = ({ navigation }, props) => {
                 try {
                     const responseJson = JSON.parse(responseText);
                     console.log('Parsed JSON:', responseJson);
+                    alert('Successful register.');
                     // Process the response as JSON
                 } catch (error) {
                     console.error('JSON Parse Error:', error);
@@ -222,8 +223,8 @@ const RegisterScreen = ({ navigation }, props) => {
                         <TouchableOpacity
                             style={styles.buttonStyle}
                             activeOpacity={0.5}
-                            onPress={() => navigation.navigate('TestScreen')}>
-                            <Text style={styles.buttonTextStyle}>Main Menu</Text>
+                            onPress={() => navigation.navigate('LoginScreen')}>
+                            <Text style={styles.buttonTextStyle}>Already registered? Login</Text>
                         </TouchableOpacity>
 
                     </KeyboardAvoidingView>
